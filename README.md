@@ -5,16 +5,16 @@ Cần cài đặt
 
 Chạy chương trình
 + Back-End: từ thư mục gốc của project thực hiện các bước:
-  - cd backend
-  ‐	npm install
-  ‐	npm start
+  + cd backend
+  +	npm install
+  +	npm start
 + Client: từ thư mực gốc của project, thực hiện các bước:
-  ‐	cd client
-  ‐	yarn
-  ‐	yarn dev
-  ‐	Truy cập đường dẫn http://localhost:3000/ để vào trang web
+  +	cd client
+  +	yarn
+  +	yarn dev
+  +	Truy cập đường dẫn http://localhost:3000/ để vào trang web
 + Admin: từ thư mực gốc của project, thực hiện các bước:
-  ‐	cd admin
-  ‐	yarn
-  ‐	yarn dev
-  ‐	Truy cập đường dẫn http://localhost:4000/ để vào trang web
+  +	cd admin
+  +	yarn
+  +	yarn dev
+  +	Truy cập đường dẫn http://localhost:4000/ để vào trang web
