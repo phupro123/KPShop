@@ -14,6 +14,7 @@ import {
 } from '../../../redux/user/userApi';
 import { CgSpinner } from 'react-icons/cg';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
+import { login } from '../../../redux/user/userSlice';
 
 function Mail({ title }) {
     const [check, setCheck] = useState(false);
@@ -63,6 +64,7 @@ function Mail({ title }) {
             if (e === 'Your OTP was wrong!') {
                 toast.error('Mã sai xác thực sai hoặc hết hạn!');
             } else {
+                dispatch(login(e))
                 toast.success('Cập nhật thành công!');
                 naviage('/account');
             }

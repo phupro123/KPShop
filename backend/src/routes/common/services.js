@@ -8,7 +8,9 @@ const ChatController = require("../../services/chat.js")
 router.post("/uploadImage", (req, res) => {
     uploadImage(req.body.image)
       .then((url) => res.send(url))
-      .catch((err) => res.status(500).send(err));
+      .catch((err) => {
+        console.log(err)
+        res.status(500).send(err)});
   });
   
 router.post("/uploadMultipleImages", (req, res) => {

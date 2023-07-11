@@ -49,7 +49,7 @@ class MailController {
         const otp = new Otp({ phone: phone, otp: OTP });
         const salt = await bcrypt.genSalt(10)
         otp.otp = await bcrypt.hash(otp.otp, salt);
-        const result = await otp.save();
+         await otp.save();
         return res.status(200).send("Otp send successfully!");
       }
     
@@ -58,6 +58,7 @@ class MailController {
             const otpHolder = await Otp.find({
             phone: req.body.phone
             });
+            console.log(req.body.otp)
             if (otpHolder.length === 0) return res.status(200).json("Your OTP was wrong!");
             const rightOtpFind = otpHolder[otpHolder.length - 1];
             const validUser = await bcrypt.compare(req.body.otp, rightOtpFind.otp);
@@ -67,7 +68,7 @@ class MailController {
                 Otp.deleteMany({
                 phone: rightOtpFind.phone
                 });
-               
+              
                 await User.updateOne({ _id: req.body.user },{username:req.body.phone})
                     .then(() => {
                     User.findById(req.body.user).then((user) => {
@@ -81,6 +82,7 @@ class MailController {
                 
                 
             } else {
+          
                 return res.status(200).json("Your OTP was wrong!")
             }
         } 

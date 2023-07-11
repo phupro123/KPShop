@@ -36,7 +36,7 @@ class ProductController {
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Product.find(queryObj)
-        .sort(sort)
+        .sort(sort ? Object.fromEntries([[sort.key, sort.value]]) : { title: 1 })
         .limit(pageSize)
         .skip(skipIndex)
         .exec();

@@ -18,7 +18,7 @@ router.delete("/delete/:id", verifyTokenAndAdmin,userController.deleteUser);
 router.get("/get/:id", verifyTokenAndAdmin, userController.getUser);
 
 //EDIT 1 USER
-router.put("/edit/:id", verifyTokenAndAdmin,userController.update);
+router.put("/edit/:id",userController.update);
 
 // NEW USER
 router.post("/new",verifyTokenAndAdmin, userController.newUser);
@@ -41,5 +41,7 @@ router.put("/editPhone/:id", userController.editPhone);
 router.put("/checkMail", userController.checkEmail);
 
 router.post("/getWishList", userController.getWishList);
+
+router.post("/checkPassword", userController.checkPassword);
 
 module.exports = router;

@@ -61,7 +61,7 @@ function LeftProfile(props) {
     return (
         <div className="flex justify-between space-x-8 text-base items-start">
             <button className="mt-10 flex-none relative" onClick={handleShowChangeProfileModal}>
-                <Avatar src={currentUser.image} alt={currentUser.fullname} className="h-24 w-24" />
+                <Avatar src={currentUser?.image} alt={currentUser?.fullname} className="h-24 w-24" />
                 <div className="absolute bottom-0 right-0">
                     <BsCameraFill size={24} className="mr-2 text-slate-800" />
                 </div>

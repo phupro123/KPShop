@@ -111,7 +111,8 @@ export const _changeMail = async ( data, ) => {
 export const _verifyChangeMail= async ( data, dispatch) => {
     try {
         const res = await axiosClient.post('/services/verifyChangeEmail', data);
-        dispatch(login(res))
+        
+       
         return res;
     } catch (err) {}
 };
@@ -145,5 +146,12 @@ export const _succesOrder= async ( data) => {
     try {
         const res = await axiosClient.post('/services/sucessOrder', data);
        
+    } catch (err) {}
+};
+
+export const _checkPassword = async ( data) => {
+    try {
+        const res = await axiosClient.post('/user/checkPassword', data);
+        return res;
     } catch (err) {}
 };

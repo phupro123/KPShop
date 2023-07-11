@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { _getAllOrders } from '../../redux/order/ordersApi';
 import Address from './Address';
 import Favorite from './Favorite';
@@ -8,7 +9,16 @@ import Password from './Password/Password';
 import Phone from './Phone/Phone';
 import Profile from './Profile/Profile';
 import Sidebar from './Sidebar';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 function Manage(props) {
+    const user = useSelector((state) => state?.user?.currentUser);
+    const navigate = useNavigate()
+    useEffect(()=>{
+        if(user==null){
+            navigate("/")
+        }
+    },[])
     let path = props.path;
     if (path === 'orderdetail') {
         path = 'history';

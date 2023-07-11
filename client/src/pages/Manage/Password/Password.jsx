@@ -4,7 +4,7 @@ import './password.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { _editPass } from '../../../redux/user/userApi';
+import { _checkPassword, _editPass } from '../../../redux/user/userApi';
 function Password({ title }) {
     const currentUser = useSelector((state) => state.user?.currentUser);
 
@@ -14,6 +14,7 @@ function Password({ title }) {
         document.title = title;
     }, []);
     const [oldPassword, setOldPassword] = useState('');
+    const [havePassword, sethavePassword] = useState(false);
 
     const [password, setPassword] = useState('');
     const [rePassword, setRePassWord] = useState('');
@@ -30,16 +31,30 @@ function Password({ title }) {
         var regExp = /[a-zA-Z]/g;
         return regExp.test(string) && string.length >= 8;
     };
+    useEffect(()=>{
+       _checkPassword({username:currentUser?.username}).then((e) => {
+            if (e === 'Có pass') {
+                sethavePassword(true);
+                return;
+            }
+
+        })
+    },{})
     const handleChange = async (e) => {
         e.preventDefault();
-        if (password === '' && rePassword === '' && oldPassword === '') {
+        if(havePassword){
+            if(oldPassword === ''){
+                setNoti('Vui lòng nhập thông tin');
+                setInput0('has-error');
+            }
+        }
+        if (password === '' && rePassword === '' ) {
             setNoti('Vui lòng nhập thông tin');
             setInput1('has-error');
             setInput2('has-error');
-            setInput0('has-error');
-        } else if (oldPassword === '') {
-            setInput0('has-error');
-        } else if (!check(password)) {
+            
+        }
+         else if (!check(password)) {
             setNoti('Mật khẩu không đúng định dạng');
             setInput1('has-error');
         } else if (password !== rePassword) {
@@ -87,7 +102,7 @@ function Password({ title }) {
             <div className="innerPassword">
                 <div className="item">
                     <form className="form" onSubmit={(e) => handleChange(e)}>
-                        {currentUser?.username ? (
+                        {havePassword ? (
                             <div className="form-control">
                                 <label className="input-label">Mật khẩu cũ</label>
                                 <div className="styles__StyledInput-sc-s5c7xj-5 hisWEc">

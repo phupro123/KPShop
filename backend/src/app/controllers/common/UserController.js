@@ -290,6 +290,17 @@ class UserController {
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, token });
   }
+  async checkPassword(req, res, next) {
+    console.log(req.body)
+    const user = await User.findOne({ username: req.body.username });
+
+    // Check account
+    if (user.password) {
+      return res.status(200).json("Có pass");
+    }
+    return res.status(200).json("Không");
+  }
+  
 }
 
 module.exports = new UserController();
