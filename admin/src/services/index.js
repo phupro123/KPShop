@@ -6,3 +6,4 @@ export * as RatingService from "./RatingService";
 export * as UserService from "./UserService";
 export * as VoucherService from "./VoucherService";
 export * as UploadService from "./UploadService";
+export * as CommonService from "./CommonService";

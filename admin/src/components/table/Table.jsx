@@ -31,7 +31,10 @@ const Table = ({
   const [tableState, setTableState] = useState({
     ...pagination,
     filterParams: columnFilter,
+    sort: columnSorting,
   });
+
+  // console.log(tableState);
 
   const columns = useMemo(
     () => [selectorColumn, ...columnsProp],
@@ -108,6 +111,7 @@ const Table = ({
       pageIndex: pagination.pageIndex,
       pageSize: pagination.pageSize,
       filterParams: columnFilter,
+      sort: columnSorting,
     };
 
     setTableState((prev) => {
@@ -131,7 +135,7 @@ const Table = ({
 
       return prev;
     });
-  }, [pagination, columnFilter]);
+  }, [pagination, columnFilter, columnSorting]);
 
   useEffect(() => {
     const convertTableState = Object.fromEntries(
@@ -141,13 +145,14 @@ const Table = ({
       ...convertTableState,
       pageSize: 10,
       pageIndex: (tableStateData.pageIndex ?? 0) + 1,
+      sort: columnSorting,
     });
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-  }, [tableStateData, onChangeState]);
+  }, [tableStateData, onChangeState, columnSorting]);
 
   return (
     <div>
@@ -159,7 +164,10 @@ const Table = ({
       />
       <div className="overflow-auto">
         <table className="relative min-w-full">
-          <TableContentHeader headerGroups={tableHeaderGroup} />
+          <TableContentHeader
+            headerGroups={tableHeaderGroup}
+            onChangeSort={setColumnSorting}
+          />
           <TableContentBody
             rows={tableRows}
             headers={tableHeaderGroup[0].headers}

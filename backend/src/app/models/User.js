@@ -55,8 +55,9 @@ const User = new Schema(
       default:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
     },
-    status:{
-      type:String,
+    status: {
+      type: Boolean,
+      default: true,
     },
     // 0 ban
     // 1 active
