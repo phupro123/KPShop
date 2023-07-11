@@ -24,6 +24,9 @@ const UserManagement = () => {
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
 
+
+
+
   const selectedUser = useMemo(() => {
     return userData.find((item) => item.userId === selectedUserId) ?? null;
   }, [selectedUserId, userData]);
@@ -65,7 +68,7 @@ const UserManagement = () => {
     }
 
     try {
-      await UserService.deleteUserById(selectedUser?._id);
+      await UserService.deleteUserById(selectedUser?._id,axiosJWT);
 
       toast.success("The user has been deleted successfully.");
 

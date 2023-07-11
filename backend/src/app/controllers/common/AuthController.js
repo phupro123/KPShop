@@ -107,8 +107,6 @@ class AuthController {
     //Take refresh token from user
     
     const refreshToken = req.cookies.refreshtoken;
-
-    console.log("==============================================",refreshToken)
    
     //Send error if token is not valid
     if (!refreshToken) return res.status(401).json("You're not authenticated");

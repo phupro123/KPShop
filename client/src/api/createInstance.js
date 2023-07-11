@@ -1,13 +1,12 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import axiosClient from "./axios.config";
 
 // const baseURL = 'https://kpshop-backend.onrender.com'
 const baseURL = 'http://localhost:8000';
 const refreshToken = async () => {
   try {
-    const res = await axios.post("https://kpshop-backend.onrender.com/auth/refresh", {
-      withCredentials: true,
-    });
+    const res = await axiosClient.post("/auth/refresh");
     return res.data;
   } catch (err) {
     console.log(err);
@@ -17,6 +16,8 @@ const refreshToken = async () => {
 export const createAxios = (user, dispatch, stateSuccess) => {
   const newInstance = axios.create({
     baseURL,
+    credentials: 'include', 
+    withCredentials: true,
     headers: {
       token: `Bearer ${user?.accessToken}`
   },

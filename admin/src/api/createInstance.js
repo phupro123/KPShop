@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { UserService } from "../services";
 import { axiosInstance } from "./axios.config";
+import { _checkRequest } from "../services/UserService";
 const baseURL = "http://localhost:8000";
 
 const refreshToken = async () => {
@@ -41,13 +42,19 @@ export const createAxios = (user, dispatch, stateSuccess) => {
       const decodedToken = jwt_decode(accessToken);
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken();
-        console.log( data );
-        const refreshUser = {
-          ...user,
-          accessToken: data?.accessToken,
-        };
-        dispatch(stateSuccess(refreshUser));
-        config.headers["token"] = "Bearer " + data?.accessToken;
+        
+        if(data==undefined){
+          _checkRequest(dispatch)
+        }
+        else{
+          const refreshUser = {
+            ...user,
+            accessToken: data?.accessToken,
+          };
+          dispatch(stateSuccess(refreshUser));
+          config.headers["token"] = "Bearer " + data?.accessToken;
+        }
+       
       }
       return config;
     },

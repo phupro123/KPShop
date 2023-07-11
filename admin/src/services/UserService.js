@@ -17,18 +17,18 @@ const getUserById = async (id, axiotJWT) => {
   return res;
 };
 
-const createUser = async (data) => {
-  let res = await axiosInstance.post("/user/new", data);
+const createUser = async (data,axiotJWT) => {
+  let res = await axiotJWT.post("/user/new", data);
   return res;
 };
 
-const updateUserById = async (id, data) => {
-  let res = await axiosInstance.put(`/user/edit/${id}`, data);
+const updateUserById = async (id, data,axiotJWT) => {
+  let res = await axiotJWT.put(`/user/edit/${id}`, data);
   return res;
 };
 
-const deleteUserById = async (id) => {
-  let res = await axiosInstance.delete(`/user/delete/${id}`);
+const deleteUserById = async (id,axiotJWT) => {
+  let res = await axiotJWT.delete(`/user/delete/${id}`);
   return res;
 };
 
@@ -59,6 +59,15 @@ const _login = async (data, dispatch, navigate) => {
   }
 };
 
+const _checkRequest = async ( dispatch) => {
+  new Promise(() => {
+    setTimeout(() => {
+      dispatch(logout());
+      removeAccessToken();
+    }, 500);
+  });
+};
+
 const _logout = async (dispatch, navigate) => {
   new Promise(() => {
     setTimeout(() => {
@@ -79,4 +88,5 @@ export {
   getAccessToken,
   _login,
   _logout,
+  _checkRequest,
 };

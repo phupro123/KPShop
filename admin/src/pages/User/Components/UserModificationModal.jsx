@@ -5,7 +5,9 @@ import { Input, UploadInput } from "../../../components/Form";
 import { Modal } from "../../../components/Modal";
 import { userFormSchema } from "../../../components/Schemas/userFormSchema";
 import { toast } from "react-toastify";
-
+import { createAxios } from "../../../api/createInstance";
+import { login } from "../../../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 const DEFAULT_VALUE = {
   fullname: "",
   username: "",
@@ -35,10 +37,14 @@ const UserModificationModal = ({
     defaultValues: DEFAULT_VALUE,
   });
 
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
+
   const handleCreateUser = useCallback(
     async (formData) => {
       try {
-        await onCreate(formData);
+        await onCreate(formData,axiosJWT);
         toast.success("The user has been updated successfully.");
         onCreated();
         onClose();
@@ -55,7 +61,7 @@ const UserModificationModal = ({
     async (formData) => {
       if (!user) return;
       try {
-        await onEdit(user._id, formData);
+        await onEdit(user._id, formData,axiosJWT);
         toast.success("The user has been updated successfully.");
         onEdited();
         onClose();

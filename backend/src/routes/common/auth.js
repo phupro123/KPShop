@@ -31,10 +31,7 @@ router.post("/refresh", authController.requestRefreshToken);
 // RETURN USER INFO
 router.get("/login/success", authController.loginSuccess);
 
-// router.get(
-//   "/google",
-//   passport.authenticate("google", { scope: ["profile", "email"] })
-// );
+// GOOGLE LOGIN
 router.get('/connect/google/:userId/:connect', (req, res,next) => {
  
   passport.authenticate('google',  { scope: ["profile", "email"],state: JSON.stringify(req.params), }
@@ -48,6 +45,7 @@ router.get(
   })
 );
 
+// FB LOGIN
 router.get('/connect/facebook/:userId/:connect', (req, res,next) => {
  
   passport.authenticate('facebook',  { scope: ["public_profile"],state: JSON.stringify(req.params), }
@@ -62,6 +60,7 @@ router.get(
   })
 );
 
+// PHONE LOGIN 
 router.post("/phone/signup", authController.signup);
 
 router.post("/phone/verify", authController.verifyOTP);

@@ -8,6 +8,8 @@ const axiosClient = axios.create({
         'Access-Control-Allow-Credentials': true,
         'Content-type': 'application/json',
     },
+    credentials: 'include', 
+    withCredentials: true,
 });
 
 axiosClient.interceptors.request.use(
