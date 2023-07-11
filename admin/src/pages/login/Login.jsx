@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserService } from "../../services";
@@ -42,6 +42,9 @@ const Login = () => {
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }
+  useEffect(() => {
+    window.document.title ="Login - KPShop"
+  }, []);
   return (
     <div className="h-fit-layout flex items-center justify-center">
       <div className="flex items-center shadow-md border bg-white rounded-lg w-1/2 px-6 min-w-[650px] py-12">
