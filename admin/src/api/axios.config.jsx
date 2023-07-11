@@ -3,11 +3,9 @@ import axios from "axios";
 const baseURL = "http://localhost:8000";
 
 const axiosInstance = axios.create({
+  credentials: 'include', 
+  withCredentials: true,
   baseURL,
-  headers: {
-    "Access-Control-Allow-Origin": "true",
-    "Content-type": "application/json",
-  },
 });
 
 axiosInstance.interceptors.request.use(

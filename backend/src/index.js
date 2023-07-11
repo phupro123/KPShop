@@ -38,6 +38,7 @@ db.connect();
 //     sameSite:"none"
 //   }
 // }));
+
 app.use(session({
   secret: 'somethingsecretgoeshere',
   resave: true,
@@ -49,20 +50,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req,res,next)=>{
-//   console.log(req.session),
-//   console.log(req.user);
-//   next()
-// })
-
 
 //Cookie
 app.use(cors({
-  origin: ["http://localhost:3000","http://127.0.0.1:3000","http://localhost:4000","http://127.0.0.1:4000","https://kpshop-backend.onrender.com","https://kpshop-admin.vercel.app","https://kpshop-client.vercel.app"],
+  origin: ["http://localhost:8000","http://localhost:3000","http://127.0.0.1:3000","http://localhost:4000","http://127.0.0.1:4000","https://kpshop-backend.onrender.com","https://kpshop-admin.vercel.app","https://kpshop-client.vercel.app"],
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 }));
 app.use(cookieParser());
+
+
 
 
 // Routes init

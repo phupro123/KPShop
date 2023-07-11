@@ -122,30 +122,38 @@ const CartInfo = () => {
     }, [toast, district]);
 
     const handleSubmit = useFormSubmit(async (formData) => {
-        setIsSubmitting(false);
-        const dataPostOrder = {
-            _id: Date.now(),
-            customer_id: user?.userId,
-            ...formData,
-            receiver: '',
-            payment: {
-                name: '',
-                paid: 'false',
-            },
-            discount: discount,
-            totalPrice: totalPrice,
-            totalQuantity: totalQuantity,
-            status: 'Đang xử lý',
-            order_items: cartItems,
-            time: dayjs().format('HH:MM MM/DD/YYYY'),
-        };
-
-        try {
-            await saveOrders(dispatch, dataPostOrder);
-            navigate('/order');
-        } catch {
-            toast.error('Đã xảy ra vấn đề trong quá trình đặt hàng. Vui lòng thử lại sau.');
+        if(!user){
+            navigate('/')
+            toast.info("Vui lòng đăng nhập")
+            return;
         }
+        else{
+            setIsSubmitting(false);
+            const dataPostOrder = {
+                _id: Date.now(),
+                customer_id: user?.userId,
+                ...formData,
+                receiver: '',
+                payment: {
+                    name: '',
+                    paid: 'false',
+                },
+                discount: discount,
+                totalPrice: totalPrice,
+                totalQuantity: totalQuantity,
+                status: 'Đang xử lý',
+                order_items: cartItems,
+                time: dayjs().format('HH:MM MM/DD/YYYY'),
+            };
+    
+            try {
+                await saveOrders(dispatch, dataPostOrder);
+                navigate('/order');
+            } catch {
+                toast.error('Đã xảy ra vấn đề trong quá trình đặt hàng. Vui lòng thử lại sau.');
+            }
+        }
+        
     });
 
     useEffect(() => {

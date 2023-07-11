@@ -19,7 +19,7 @@ const generateAccessToken= (user)=>{
       role: user.role
     },
     "access_key",
-    { expiresIn: "1d" }
+    { expiresIn: "10s" }
   );
 }
 
@@ -94,6 +94,7 @@ class AuthController {
       path: "/",
       sameSite: "strict",
     });
+    req.session.refreshToken = refreshToken;
     // Exclude pass .0  
     const { password, ...others } = user._doc;
      res.status(200).json({ ...others, accessToken });
@@ -104,9 +105,11 @@ class AuthController {
   //  [POST] /login/refresh
   async requestRefreshToken(req, res) {
     //Take refresh token from user
-
-    const refreshToken = req.cookies.refreshtoken;
     
+    const refreshToken = req.cookies.refreshtoken;
+
+    console.log("==============================================",refreshToken)
+   
     //Send error if token is not valid
     if (!refreshToken) return res.status(401).json("You're not authenticated");
 
@@ -369,8 +372,9 @@ class AuthController {
         httpOnly: true,
         secure: false,
         path: "/",
-        sameSite: "strict",
+        // sameSite: "strict",
       });
+      // req.session.refreshToken= refreshToken
       // Exclude pass .0  
       const { password, ...others } = user._doc;
        res.status(200).json({ ...others, accessToken });
