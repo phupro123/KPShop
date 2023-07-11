@@ -145,7 +145,7 @@ class AuthController {
   async logOut(req, res) {
     //Clear cookies when user logs out
     if(req?.user){
-      req.logout();
+      req.session.destroy()
     }
     
     await RefreshToken.deleteOne( { "name":   req.cookies.refreshToken} )

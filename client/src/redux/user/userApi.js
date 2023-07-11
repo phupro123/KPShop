@@ -38,7 +38,7 @@ export const _logout = async (dispatch, navigate) => {
         const b = await axiosClient.post('/auth/logout');
         // window.open('https://kpshop-backend.onrender.com/auth/logout', '_self');
         dispatch(logout());
-        navigate('/');
+        // navigate('/');
     } catch (err) {}
 };
 

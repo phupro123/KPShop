@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import axiosClient from "./axios.config";
+import { _logout } from "../redux/user/userApi";
 
 // const baseURL = 'https://kpshop-backend.onrender.com'
 const baseURL = 'http://localhost:8000';
@@ -18,9 +19,7 @@ export const createAxios = (user, dispatch, stateSuccess) => {
     baseURL,
     credentials: 'include', 
     withCredentials: true,
-    headers: {
-      token: `Bearer ${user?.accessToken}`
-  },
+    
   });
   newInstance.interceptors.response.use(
     function (res) {
@@ -37,12 +36,16 @@ export const createAxios = (user, dispatch, stateSuccess) => {
       const decodedToken = jwt_decode(user?.accessToken);
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken();
+        if(data==undefined){
+          _logout(dispatch)
+        }
+        else{
         const refreshUser = {
           ...user,
           accessToken: data.accessToken,
         };
         dispatch(stateSuccess(refreshUser));
-        config.headers["token"] = "Bearer " + data.accessToken;
+        }
       }
       return config;
     },
