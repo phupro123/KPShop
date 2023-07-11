@@ -1,0 +1,101 @@
+@import "react-tooltip/dist/react-tooltip.css";
+@import "react-datepicker/dist/react-datepicker.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*:not([class]) {
+  ::-webkit-scrollbar {
+    @apply w-4 bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full border-4 border-solid border-gray-100 bg-black bg-opacity-60 hover:bg-opacity-40;
+  }
+}
+
+.overflow-overlay::-webkit-scrollbar {
+  width: 16px;
+}
+
+.overflow-overlay {
+  overflow: overlay;
+  z-index: 10;
+
+  &::-webkit-scrollbar {
+    @apply w-3.5 rounded-br-md rounded-tr-md border-2 border-gray-100 bg-transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-b-full rounded-t-full bg-transparent bg-clip-padding duration-100;
+
+    border: 4px solid rgba(0, 0, 0, 0);
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      @apply bg-gray-400;
+    }
+  }
+}
+
+.react-datepicker {
+  &__header,
+  &__month {
+    @apply p-2;
+  }
+
+  &__header:not(.react-datepicker__header--has-time-select) {
+    @apply rounded-none border-gray-100 bg-white;
+  }
+
+  &__navigation-icon {
+    @apply top-1.5 before:border-blue-500;
+  }
+
+  &__current-month,
+  &__day-name {
+    @apply text-blue-500;
+  }
+
+  &__month {
+    @apply m-0;
+  }
+
+  &__day--in-selecting-range:not(
+      .react-datepicker__day--in-range,
+      .react-datepicker__month-text--in-range,
+      .react-datepicker__quarter-text--in-range,
+      .react-datepicker__year-text--in-range
+    ) {
+    @apply bg-blue-100 text-black hover:bg-blue-100;
+  }
+
+  &__day-name,
+  &__day {
+    @apply w-7 text-xs leading-7;
+
+    &--in-selecting-range,
+    &--in-range {
+      @apply bg-blue-100 text-black hover:bg-blue-100;
+    }
+
+    &--selected,
+    &--range-end {
+      @apply bg-blue-500 font-medium text-white hover:rounded-full hover:bg-blue-500 hover:text-white #{!important};
+    }
+
+    &--selected {
+      @apply rounded-full;
+    }
+
+    &--range-end {
+      @apply rounded-full;
+    }
+  }
+}

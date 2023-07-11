@@ -1,0 +1,15 @@
+export const COMMON_PATH = {
+  HOME_PATH: "/",
+  ABOUT_PATH: "/about",
+  BLOG_PATH: "/blog",
+  PARTNER_PATH: "/partner",
+  CONTACT_PATH: "/contact",
+  GETTING_STARTED_PATH: "/getting-started",
+  DOCUMENTATION_PATH: "/documentations",
+  GUIDE_PATH: "/guides",
+  FAQ_PATH: "/faqs",
+  TERM_PATH: "/terms",
+  NOTICE_PATH: "/notices",
+  CLAIM_PATH: "/claims",
+  NOT_FOUND_PATH: "/*",
+};
