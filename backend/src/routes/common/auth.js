@@ -3,8 +3,8 @@ var router = express.Router();
 const authController = require("../../app/controllers/common/AuthController");
 const {verifyToken} = require("../../app/controllers/common/verifyController.js");
 const passport = require("passport");
-// const URL = "http://localhost:3000/"
-const URL = "https://kpshop-client.vercel.app/"
+const URL = "http://localhost:3000/"
+// const URL = "https://kpshop-client.vercel.app/"
 //REGISTER NORMAL
 router.post("/register", authController.register);
 //LOGIN NORMAL

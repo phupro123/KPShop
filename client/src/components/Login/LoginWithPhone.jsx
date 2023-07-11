@@ -89,10 +89,10 @@ const LoginWithPhone = ({ handleToggleLogin, handleCloseModal }) => {
     }, [ phone, dispatch, navigate, setIsContinueLogin, toast]);
 
     const handleGoolge = () => {
-        window.open(`https://kpshop-backend.onrender.com/auth/connect/google/1/0`, '_self');
+        window.open(`http://localhost:8000/auth/connect/google/1/0`, '_self');
     };
     const handleFb = () => {
-        window.open(`https://kpshop-backend.onrender.com/auth/connect/facebook/1/0`, '_self');
+        window.open(`http://localhost:8000/auth/connect/facebook/1/0`, '_self');
     };
     return (
         <>

@@ -2,11 +2,11 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { UserService } from "../services";
 
-const baseURL = "https://kpshop-backend.onrender.com";
+const baseURL = "http://localhost:8000";
 
 const refreshToken = async () => {
   try {
-    const res = await axios.post("https://kpshop-backend.onrender.com/auth/refresh", {
+    const res = await axios.post("http://localhost:8000/auth/refresh", {
       withCredentials: true,
     });
     return res.data;
