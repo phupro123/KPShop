@@ -10,9 +10,8 @@ class ProductController {
 
     const price = req.query.price?.split("-");
     const star = req.query.star;
-
+    const title = req.query.title || "";
     const sort = req.query.sort && JSON.parse(req.query.sort);
-
 
     const queryObj = {
       ...req.query,
@@ -28,15 +27,16 @@ class ProductController {
           $lt: Number(star) + 1,
         },
       }),
+      ...(title && {
+        title: { $regex: title, $options: "i" },
+      }),
     };
 
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Product.find(queryObj)
-        .sort(
-          sort ? Object.fromEntries([[sort.key, sort.value]]) : { title: 1 }
-        )
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
@@ -169,17 +169,20 @@ class ProductController {
     // } catch (err) {
     //   res.status(500).json(err);
     // }
-    const value= req.params.name
+    const value = req.params.name;
     try {
-      const data = await Product.find({title:{$regex:value,$options:"i"}})
-      .exec();
-      const count = await Product.countDocuments({title:{$regex:value,$options:"i"}});
+      const data = await Product.find({
+        title: { $regex: value, $options: "i" },
+      }).exec();
+      const count = await Product.countDocuments({
+        title: { $regex: value, $options: "i" },
+      });
       res.status(200).json({
         data,
         total: count,
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(500).json(err);
     }
   }

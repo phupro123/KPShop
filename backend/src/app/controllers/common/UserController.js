@@ -10,11 +10,25 @@ class UserController {
     const pageSize = parseInt(req.query.pageSize);
     const skipIndex = (pageIndex - 1) * pageSize;
 
-    const queryObj = { ...req.query };
+    const fullname = req.query.fullname || "";
+    const username = req.query.username || "";
+
+    const queryObj = {
+      ...req.query,
+      ...(fullname && {
+        fullname: { $regex: fullname, $options: "i" },
+      }),
+      ...(username && {
+        username: { $regex: username, $options: "i" },
+      }),
+    };
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
+    const sort = req.query.sort && JSON.parse(req.query.sort);
+
     try {
       const data = await User.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
@@ -267,14 +281,14 @@ class UserController {
     }
     return res.status(200).json("");
   }
-  async getWishList(req,res){
-    const token = req.body.accessToken
-    const user = await User.findOne({ userId: req.body.userId }).populate("wishlist");
-  
-    
-        const { password, ...others } = user._doc;
-      res.status(200).json({ ...others,  token });
-        
+  async getWishList(req, res) {
+    const token = req.body.accessToken;
+    const user = await User.findOne({ userId: req.body.userId }).populate(
+      "wishlist"
+    );
+
+    const { password, ...others } = user._doc;
+    res.status(200).json({ ...others, token });
   }
 }
 

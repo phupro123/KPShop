@@ -9,6 +9,7 @@ class RatingController {
 
     const fromDate = req.query.fromDate;
     const toDate = req.query.toDate;
+    const sort = req.query.sort && JSON.parse(req.query.sort);
 
     const queryObj = {
       ...req.query,
@@ -24,6 +25,7 @@ class RatingController {
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Rating.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();

@@ -6,12 +6,21 @@ class CategoryController {
     const pageIndex = parseInt(req.query.pageIndex);
     const pageSize = parseInt(req.query.pageSize);
     const skipIndex = (pageIndex - 1) * pageSize;
+    const name = req.query.name || "";
 
-    const queryObj = { ...req.query };
+    const queryObj = {
+      ...req.query,
+      ...(name && {
+        name: { $regex: name, $options: "i" },
+      }),
+    };
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+
     try {
       const data = await Category.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();

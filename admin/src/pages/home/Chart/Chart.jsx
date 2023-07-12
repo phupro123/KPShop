@@ -24,8 +24,6 @@ const Chart = () => {
     fetchData();
   }, [fetchData]);
 
-  console.log(data);
-
   return (
     <>
       <ChartByMonth data={data} isLoading={isLoading} />
