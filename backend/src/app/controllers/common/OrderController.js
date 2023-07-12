@@ -12,6 +12,7 @@ class OrderController {
     const fromDate = req.query.fromDate;
     const toDate = req.query.toDate;
     const totalPrice = req.query.totalPrice?.split("-");
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
 
     const queryObj = {
       ...req.query,
@@ -35,6 +36,7 @@ class OrderController {
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Order.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
@@ -86,7 +88,6 @@ class OrderController {
       });
   }
 
-  
   // [GET] /order/all
   async getAllorderById(req, res, next) {
     Order.find({ customer_id: req.params.id })

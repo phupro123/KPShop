@@ -9,6 +9,8 @@ class VoucherController {
 
     const fromDate = req.query.fromDate;
     const toDate = req.query.toDate;
+    const sort = req.query.sort && JSON.parse(req.query.sort);
+    const name = req.query.name || "";
 
     const queryObj = {
       ...req.query,
@@ -19,11 +21,15 @@ class VoucherController {
             $lt: new Date(toDate),
           },
         }),
+      ...(name && {
+        name: { $regex: name, $options: "i" },
+      }),
     };
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Voucher.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();

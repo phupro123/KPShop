@@ -2,7 +2,7 @@ import { flexRender } from "@tanstack/react-table";
 
 import TableContentHeaderColumn from "./TableContentHeaderColumn";
 
-const TableContentHeader = ({ headerGroups }) => {
+const TableContentHeader = ({ headerGroups, onChangeSort }) => {
   return (
     <thead className="overflow-hidden">
       {headerGroups.map((headerGroup) => (

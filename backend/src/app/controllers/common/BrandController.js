@@ -1,4 +1,4 @@
-const { join } = require("lodash");
+const { join, isEmpty } = require("lodash");
 const Brand = require("../../models/Brand");
 
 class BrandController {
@@ -7,13 +7,22 @@ class BrandController {
     const pageIndex = parseInt(req.query.pageIndex);
     const pageSize = parseInt(req.query.pageSize);
     const skipIndex = (pageIndex - 1) * pageSize;
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
 
-    const queryObj = { ...req.query };
+    const name = req.query.name || "";
+
+    const queryObj = {
+      ...req.query,
+      ...(name && {
+        name: { $regex: name, $options: "i" },
+      }),
+    };
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
     try {
       const data = await Brand.find(queryObj)
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
