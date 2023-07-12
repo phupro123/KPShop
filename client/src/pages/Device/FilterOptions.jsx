@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 import FilterOptionItem from './FilterOptionItem';
 import { useRef } from 'react';
-import TableHeaderFilterDropdownSkeleton from './TableHeaderFilterDropdownSkeleton';
+import FilterOptionsSkeleton from './FilterOptionsSkeleton';
 import { useLayoutEffect } from 'react';
 
 const FilterOptions = ({
@@ -87,7 +87,7 @@ const FilterOptions = ({
                             onChange={handleChangeSelectedFilter}
                         />
                     ))}
-                {isLoading && <TableHeaderFilterDropdownSkeleton maxSelection={maxSelection} />}
+                {isLoading && <FilterOptionsSkeleton maxSelection={maxSelection} />}
             </div>
             <div className="mt-2.5 border-t-2 border-gray-100">
                 {isLoading ? (

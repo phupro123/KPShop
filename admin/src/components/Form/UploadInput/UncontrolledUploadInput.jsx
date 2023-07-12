@@ -16,6 +16,7 @@ const UncontrolledUploadInput = ({
   multiple,
   value,
   label,
+  isRequired,
   disabled = false,
   onChange,
   placeholder,
@@ -127,6 +128,7 @@ const UncontrolledUploadInput = ({
       >
         <div className="absolute inset-y-0 left-0 top-1/2 -z-30 w-full -translate-y-0.5" />
         {label}
+        {isRequired && <div>*</div>}
       </div>
       <button
         type="button"

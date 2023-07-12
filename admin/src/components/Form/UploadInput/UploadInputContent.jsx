@@ -22,9 +22,11 @@ const UploadInputContent = ({
       {isLoading &&
         Array.from(reviewedImages).map((image, index) => {
           return (
-            <div className="relative h-14 xs:w-[calc(20%-12px)] sm:w-[calc(25%-12px)] rounded-lg">
+            <div
+              key={index}
+              className="relative h-14 xs:w-[calc(20%-12px)] sm:w-[calc(25%-12px)] rounded-lg"
+            >
               <img
-                key={index}
                 src={image}
                 alt="CStorage"
                 className="h-full w-full rounded-lg object-cover object-center opacity-50"
