@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import FilterOptions from './FilterOptions';
 import { useSearchParams } from 'react-router-dom';
-import TableHeaderFilterLabel from './TableHeaderFilterLabel';
+import FilterLabel from './FilterLabel';
 import { flexRender } from '@tanstack/react-table';
 import { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -53,7 +53,7 @@ const FilterWrapperContent = ({ header, onChangeFilters }) => {
     const label = useMemo(() => {
         const originalLabel = header.meta?.filterLabel ?? flexRender(header.header, header.getContext());
         return (
-            <TableHeaderFilterLabel
+            <FilterLabel
                 label={originalLabel}
                 selectedFilters={selectedFilters}
                 labelFactory={filterOptionLabelFactory}

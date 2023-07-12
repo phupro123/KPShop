@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 import LoadingSkeleton from '../../components/Loading/LoadingSkeleton';
 
-const TableHeaderFilterDropdownSkeleton = ({ maxSelection }) => {
+const FilterOptionsSkeleton = ({ maxSelection }) => {
     return (
         <div className="">
             <div className="flex w-full items-center justify-start space-x-3.5 py-1.5">
@@ -32,4 +32,4 @@ const TableHeaderFilterDropdownSkeleton = ({ maxSelection }) => {
     );
 };
 
-export default TableHeaderFilterDropdownSkeleton;
+export default FilterOptionsSkeleton;

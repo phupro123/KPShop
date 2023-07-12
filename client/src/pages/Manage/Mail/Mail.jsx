@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import OtpInput from 'otp-input-react';
 import './mail.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,7 +13,7 @@ import {
 } from '../../../redux/user/userApi';
 import { CgSpinner } from 'react-icons/cg';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
-import { login } from '../../../redux/user/userSlice';
+import PinInput from 'react-pin-input';
 
 function Mail({ title }) {
     const [check, setCheck] = useState(false);
@@ -64,13 +63,16 @@ function Mail({ title }) {
             if (e === 'Your OTP was wrong!') {
                 toast.error('Mã sai xác thực sai hoặc hết hạn!');
             } else {
-                dispatch(login(e))
                 toast.success('Cập nhật thành công!');
                 naviage('/account');
             }
             setLoading(false);
         });
     }
+
+    const handleOnChangeOTP = (inputOTP) => {
+        setOtp?.(inputOTP);
+    };
 
     return (
         <div className="mb-[2rem]  bg-blue">
@@ -83,15 +85,23 @@ function Mail({ title }) {
                     </div>
                     <div className="font-bold text-xl text-black w-fit mx-auto">Nhập mã OTP để xác thực</div>
                     <div className="otpInput  w-fit mx-auto p-4  ">
-                        <OtpInput
-                            value={otp}
-                            onChange={setOtp}
-                            OTPLength={6}
-                            otpType="number"
-                            disabled={false}
-                            autoFocus
-                            className="opt-container"
-                        ></OtpInput>
+                        <PinInput
+                            length={6}
+                            initialValue={String(otp)}
+                            onChange={handleOnChangeOTP}
+                            type="numeric"
+                            inputMode="number"
+                            style={{ display: 'flex', justifyContent: 'space-between' }}
+                            inputStyle={{
+                                borderRadius: '8px',
+                                borderWidth: '2px',
+                                borderColor: '#f3f4f6',
+                                marginInline: '8px',
+                            }}
+                            inputFocusStyle={{ borderColor: '#3b82f6' }}
+                            autoSelect
+                            regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+                        />
                     </div>
 
                     <button

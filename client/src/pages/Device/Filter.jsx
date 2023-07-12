@@ -1,10 +1,11 @@
 import { capitalize, isEqual } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import FilterWrapper from './FilterWrapper';
 
-const Filter = ({ headerGroups, onChangeState }) => {
+const Filter = ({ searchGroup, headerGroups, onChangeState }) => {
     const location = useLocation();
+    const [searchParams] = useSearchParams();
     const isFirstRender = useRef(true);
 
     const [columnFilter, setColumnFilter] = useState([]);
@@ -12,15 +13,24 @@ const Filter = ({ headerGroups, onChangeState }) => {
         filterParams: columnFilter,
     });
 
-    const filterDataArray = useMemo(
-        () => [
+    console.log(searchParams.get('name'));
+
+    const filterDataArray = useMemo(() => {
+        if (location.pathname.slice(1) === 'search') {
+            return [
+                {
+                    filterBy: 'title',
+                    values: [searchParams.get('name')],
+                },
+            ];
+        }
+        return [
             {
                 filterBy: 'category',
                 values: [capitalize(location.pathname.slice(1))],
             },
-        ],
-        [location],
-    );
+        ];
+    }, [location]);
 
     const tableStateData = useMemo(() => {
         if (isFirstRender.current) {
@@ -75,9 +85,12 @@ const Filter = ({ headerGroups, onChangeState }) => {
     }, [tableStateData, onChangeState]);
 
     return (
-        <div className="relative mb-2 flex flex-wrap items-center justify-start">
-            <FilterWrapper headerGroups={headerGroups} onChangeFilter={setColumnFilter} onToggleRef={handleToggleRef} />
-        </div>
+        <FilterWrapper
+            searchGroup={searchGroup}
+            headerGroups={headerGroups}
+            onChangeFilter={setColumnFilter}
+            onToggleRef={handleToggleRef}
+        />
     );
 };
 

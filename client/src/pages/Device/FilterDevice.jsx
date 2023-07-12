@@ -51,6 +51,7 @@ const FilterDevice = ({ category, onChangeState }) => {
                     filterQuery: capitalize(category),
                     filterOptionLabelFactory: (option) => String(option),
                     getFilterOptions: brandService.getBrandsByCategory,
+                    isHidden: category === 'search',
                 },
             },
             {
@@ -91,7 +92,7 @@ const FilterDevice = ({ category, onChangeState }) => {
                     filterType: 'enum',
                     getFilterDataEnum: uniq(Object.values(StorageEnum)).slice(category === 'tablet' ? 0 : 4),
                     filterOptionLabelFactory: (option) => String(option),
-                    isHidden: category === 'phone',
+                    isHidden: category === 'phone' || category === 'search',
                 },
             },
             {
@@ -105,7 +106,7 @@ const FilterDevice = ({ category, onChangeState }) => {
                     filterType: 'enum',
                     getFilterDataEnum: uniq(Object.values(specialFeatureEnum)),
                     filterOptionLabelFactory: (option) => String(option),
-                    isHidden: category === 'laptop',
+                    isHidden: category === 'laptop' || category === 'search',
                 },
             },
             {
@@ -126,7 +127,20 @@ const FilterDevice = ({ category, onChangeState }) => {
         [],
     );
 
-    return <Filter headerGroups={headerGroups} onChangeState={onChangeState} />;
+    const searchGroup = useMemo(
+        () => [
+            {
+                key: 'information',
+                label: 'Information',
+                field: {
+                    title: 'Name',
+                },
+            },
+        ],
+        [],
+    );
+
+    return <Filter headerGroups={headerGroups} searchGroup={searchGroup} onChangeState={onChangeState} />;
 };
 
 export default FilterDevice;

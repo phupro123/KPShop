@@ -27,6 +27,10 @@ export const publishRoutes = [
         element: <Device device="laptop" title="Sản phẩm  - KPshop.com" />,
     },
     {
+        path: 'search',
+        element: <Device device="search" title="Tìm kiếm  - KPshop.com" />,
+    },
+    {
         path: 'account',
         element: <Manage path="account" title="Thông tin cá nhân - KPshop.com" />,
     },
@@ -41,7 +45,7 @@ export const publishRoutes = [
     },
     {
         path: 'favorite',
-        element: <Manage path="favorite" title="Số địa chỉ  - KPshop.com" />,
+        element: <Manage path="favorite" title="Danh sách yêu thích  - KPshop.com" />,
     },
     {
         path: 'account/edit/password',

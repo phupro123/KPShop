@@ -11,6 +11,7 @@ const ProductCard = ({ data, isBorder = false }) => {
             behavior: 'smooth',
         });
     };
+
     return (
         <Link to={`/${lowerCase(data.category)}/${data.slug}`} onClick={handleProductClick}>
             <div
@@ -27,7 +28,6 @@ const ProductCard = ({ data, isBorder = false }) => {
                 >
                     <p>{data.promotion}</p>
                 </div>
-
                 <div className="w-full relative object-contain">
                     <img src={data.img}></img>
                     {data.docquyen && (
@@ -43,15 +43,12 @@ const ProductCard = ({ data, isBorder = false }) => {
                         ></img>
                     )}
                 </div>
-
                 {data.tag && (
                     <p className="text-white font-medium text-xs uppercase text-center w-[160px] rounded-3xl p-2 bg-[#db2562] mx-autơ">
                         {data.tag}
                     </p>
                 )}
-
                 <span className="font-semibold text-base">{data.title}</span>
-
                 {!isEmpty(data.parameter?.RAM) && (
                     <div>
                         {data.parameter?.RAM?.map((item, index) => (
@@ -70,16 +67,15 @@ const ProductCard = ({ data, isBorder = false }) => {
                         ))}
                     </div>
                 )}
-
-                <div className="flex space-x-1 font-medium text-sm items-center text-slate-700">
-                    <div className="line-through">{numberWithCommas(data?.price)}</div>
-                    <div className="">-{data?.discount * 100}%</div>
-                </div>
-
+                {!!Number(data?.discount) && (
+                    <div className="flex space-x-1 font-medium text-sm items-center text-slate-700">
+                        <div className="line-through">{numberWithCommas(data?.price)}</div>
+                        <div className="">-{data?.discount * 100}%</div>
+                    </div>
+                )}
                 <div className="text-primary-500 font-bold text-base">
                     {numberWithCommas(data?.price * (1 - data?.discount))}
                 </div>
-
                 <div className="flex items-center text-yellow-400 font-bold space-x-2">
                     <div>{data?.star?.toFixed(1)}</div>
                     <AiFillStar />
