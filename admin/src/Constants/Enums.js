@@ -9,6 +9,17 @@ export const BooleanEnum = {
   },
 };
 
+export const StatusEnum = {
+  0: {
+    key: "actived",
+    value: true,
+  },
+  1: {
+    key: "disabled",
+    value: false,
+  },
+};
+
 export const UserRoleEnum = {
   0: {
     key: "Admin",

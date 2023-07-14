@@ -20,7 +20,6 @@ const LoginWithEmail = ({ handleToggleLogin }) => {
     const { control, handleSubmit: useFormSubmit } = useForm({
         resolver: yupResolver(loginWithEmailFormSchema()),
     });
-    
 
     const handleSubmit = useFormSubmit((formData) => {
         setIsSubmitting(true);
@@ -28,10 +27,15 @@ const LoginWithEmail = ({ handleToggleLogin }) => {
         _loginPass(formData, dispatch, navigate)
             .then(() => {
                 toast.success('Đăng nhập thành công!');
-                navigate('/')
+                navigate('/');
             })
             .catch((error) => {
-                toast.error("Mật khẩu hoặc tài khoản không đúng vui lòng thử lại");
+                console.log(error);
+                if (error?.response?.status === 400) {
+                    toast.error(error?.response?.data);
+                } else {
+                    toast.error('Mật khẩu hoặc tài khoản không đúng vui lòng thử lại');
+                }
             })
             .finally(() => {
                 setIsSubmitting(false);
@@ -40,10 +44,8 @@ const LoginWithEmail = ({ handleToggleLogin }) => {
     const handleToggleMail = useCallback(() => {
         setForget((pre) => !pre);
     }, [setForget]);
-    return (
-        
-            forget ? 
-            <>
+    return forget ? (
+        <>
             <div className="text-left">
                 <button>
                     <BsChevronLeft onClick={handleToggleLogin} />
@@ -67,7 +69,10 @@ const LoginWithEmail = ({ handleToggleLogin }) => {
                 </Button>
             </form>
 
-            <button onClick={handleToggleMail} className="text-blue-500 hover:text-blue-700 text-right text-xs font-medium">
+            <button
+                onClick={handleToggleMail}
+                className="text-blue-500 hover:text-blue-700 text-right text-xs font-medium"
+            >
                 Quên mật khẩu
             </button>
 
@@ -78,12 +83,10 @@ const LoginWithEmail = ({ handleToggleLogin }) => {
                 </a>
             </div>
         </>
-        :
-         <>
+    ) : (
+        <>
             <ForgetPass handleToggleMail={handleToggleMail} />
-         </>
-        
-        
+        </>
     );
 };
 
