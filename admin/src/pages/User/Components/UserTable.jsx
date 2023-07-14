@@ -6,7 +6,12 @@ import { Toggle } from "../../../components/Form";
 import UserRole from "./UserRole";
 import Avatar from "../../../components/Avatar/Avatar";
 import { uniq } from "lodash";
-import { BooleanEnum, UserRoleEnum } from "../../../Constants/Enums";
+import {
+  BooleanEnum,
+  StatusEnum,
+  UserRoleEnum,
+} from "../../../Constants/Enums";
+import UserStatus from "./UserStatus";
 
 const UserTable = ({
   data,
@@ -15,6 +20,7 @@ const UserTable = ({
   onChangeState,
   onClickEdit,
   onClickDelete,
+  onClickBlock,
 }) => {
   const columnHelper = createColumnHelper();
   const columns = useMemo(
@@ -41,10 +47,6 @@ const UserTable = ({
         id: "username",
         header: "Email",
       }),
-      columnHelper.accessor((row) => row.phone, {
-        id: "phone",
-        header: "Phone",
-      }),
       columnHelper.accessor((row) => row.role, {
         id: "role",
         header: "Role",
@@ -60,6 +62,29 @@ const UserTable = ({
           filterLabel: "Role",
           filterType: "enum",
           getFilterDataEnum: uniq(Object.values(UserRoleEnum)),
+          filterOptionLabelFactory: (option) => String(option),
+        },
+      }),
+      columnHelper.accessor((row) => row.phone, {
+        id: "phone",
+        header: "Phone",
+      }),
+      columnHelper.accessor((row) => row.status, {
+        id: "status",
+        header: "Status",
+        cell: (props) => (
+          <UserStatus
+            status={props.row.original?.status ? "actived" : "disabled"}
+            abc={props.row.original}
+          />
+        ),
+        meta: {
+          filterBy: "key",
+          customFilterBy: "status",
+          filterChange: "value",
+          filterLabel: "Status",
+          filterType: "enum",
+          getFilterDataEnum: uniq(Object.values(StatusEnum)),
           filterOptionLabelFactory: (option) => String(option),
         },
       }),
@@ -113,8 +138,10 @@ const UserTable = ({
         cell: (props) => (
           <UserTableRowAction
             id={props.row.original.userId}
+            user={props.row.original}
             onClickEdit={onClickEdit}
             onClickDelete={onClickDelete}
+            onClickBlock={onClickBlock}
           />
         ),
       }),

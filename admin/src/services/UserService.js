@@ -17,17 +17,22 @@ const getUserById = async (id, axiotJWT) => {
   return res;
 };
 
-const createUser = async (data,axiotJWT) => {
+const createUser = async (data, axiotJWT) => {
   let res = await axiotJWT.post("/user/new", data);
   return res;
 };
 
-const updateUserById = async (id, data,axiotJWT) => {
+const updateUserById = async (id, data, axiotJWT) => {
   let res = await axiotJWT.put(`/user/edit/${id}`, data);
   return res;
 };
 
-const deleteUserById = async (id,axiotJWT) => {
+const updateUserStatusById = async (id, status, axiotJWT) => {
+  let res = await updateUserById(id, { status }, axiotJWT);
+  return res;
+};
+
+const deleteUserById = async (id, axiotJWT) => {
   let res = await axiotJWT.delete(`/user/delete/${id}`);
   return res;
 };
@@ -59,7 +64,7 @@ const _login = async (data, dispatch, navigate) => {
   }
 };
 
-const _checkRequest = async ( dispatch) => {
+const _checkRequest = async (dispatch) => {
   await axiosInstance.post('/auth/logout');
   new Promise(() => {
     setTimeout(() => {
@@ -85,6 +90,7 @@ export {
   getUserById,
   createUser,
   updateUserById,
+  updateUserStatusById,
   deleteUserById,
   setAccessToken,
   getAccessToken,

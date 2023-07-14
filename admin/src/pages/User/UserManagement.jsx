@@ -21,11 +21,9 @@ const UserManagement = () => {
   const [userData, setUserData] = useState([]);
   const [isShowModificationModal, setIsShowModificationModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowBlockModal, setIsShowBlockModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
-
-
-
 
   const selectedUser = useMemo(() => {
     return userData.find((item) => item.userId === selectedUserId) ?? null;
@@ -43,6 +41,11 @@ const UserManagement = () => {
   const handleClickDeleteButton = useCallback((id) => {
     setSelectedUserId(id ?? null);
     setIsShowDeleteModal(true);
+  }, []);
+
+  const handleClickBlockButton = useCallback((id) => {
+    setSelectedUserId(id ?? null);
+    setIsShowBlockModal(true);
   }, []);
 
   const fetchData = useCallback(async () => {
@@ -68,7 +71,7 @@ const UserManagement = () => {
     }
 
     try {
-      await UserService.deleteUserById(selectedUser?._id,axiosJWT);
+      await UserService.deleteUserById(selectedUser?._id, axiosJWT);
 
       toast.success("The user has been deleted successfully.");
 
@@ -82,9 +85,40 @@ const UserManagement = () => {
     }
   }, [selectedUser, toast]);
 
+  const handleBlock = useCallback(async () => {
+    if (!selectedUser) {
+      return;
+    }
+
+    const newStatus = !selectedUser?.status;
+
+    try {
+      await UserService.updateUserStatusById(
+        selectedUser?._id,
+        newStatus,
+        axiosJWT
+      );
+
+      toast.success(
+        !newStatus
+          ? "The user has been blocked successfully."
+          : "The user has been unblocked successfully."
+      );
+
+      fetchData();
+    } catch (error) {
+      toast.error(
+        "An error occurred while deleting the user. Please try again later."
+      );
+    } finally {
+      setIsShowBlockModal(false);
+    }
+  }, [selectedUser, toast]);
+
   const handleCloseModal = useCallback(() => {
     setIsShowModificationModal(false);
     setIsShowDeleteModal(false);
+    setIsShowBlockModal(false);
     setSelectedUserId(null);
   }, []);
 
@@ -108,6 +142,7 @@ const UserManagement = () => {
         rows={totalRows}
         onClickEdit={handleClickEditButton}
         onClickDelete={handleClickDeleteButton}
+        onClickBlock={handleClickBlockButton}
       />
 
       <ConfirmationModal
@@ -125,6 +160,27 @@ const UserManagement = () => {
         }
         onClose={handleCloseModal}
         onConfirm={handleDelete}
+      />
+
+      <ConfirmationModal
+        message={
+          selectedUser?.status
+            ? "Are you sure you want to block this user? This action cannot be undone."
+            : "Are you sure you want to unblock this user?"
+        }
+        isOpen={isShowBlockModal}
+        status="danger"
+        title={
+          <div>
+            {selectedUser?.status ? "Block" : "Unblock"}
+            <span className="mx-1 font-semibold text-red-500 whitespace-normal break-words">
+              {selectedUser?.fullname}
+            </span>
+            user
+          </div>
+        }
+        onClose={handleCloseModal}
+        onConfirm={handleBlock}
       />
 
       <UserModificationModal

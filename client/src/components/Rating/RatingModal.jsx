@@ -73,9 +73,9 @@ const RatingModal = ({ phoneData, ratingProduct, handleCloseModal, fetchRatingPr
         <>
             <div
                 onClick={handleCloseModal}
-                className="fixed inset-0 w-full h-full z-10 bg-gray-800 bg-opacity-80"
+                className="fixed inset-0 w-full h-full z-20 bg-gray-800 bg-opacity-80"
             ></div>
-            <div className="fixed z-10 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-xl border shadow-xl text-gray-800 text-base h-fit p-6">
+            <div className="fixed z-20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-xl border shadow-xl text-gray-800 text-base h-fit p-6">
                 <p className="text-2xl font-bold mb-6">Đánh giá</p>
                 <div className="flex flex-col space-y-6 items-center">
                     <div className="font-bold text-xl flex items-center">

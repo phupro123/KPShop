@@ -31,7 +31,6 @@ class OrderController {
       }),
     };
 
-    console.log(queryObj);
     const excludedFields = ["pageIndex", "pageSize"];
     excludedFields.forEach((el) => delete queryObj[el]);
     try {

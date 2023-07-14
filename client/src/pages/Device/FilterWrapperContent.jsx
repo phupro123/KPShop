@@ -10,7 +10,6 @@ import { twMerge } from 'tailwind-merge';
 import { BiChevronDown } from 'react-icons/bi';
 
 const FilterWrapperContent = ({ header, onChangeFilters }) => {
-    console.log(header);
     const [searchParams] = useSearchParams();
     const containerRef = useRef(null);
 
