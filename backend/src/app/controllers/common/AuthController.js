@@ -13,20 +13,21 @@ const authToken = "ed8d0826c472d43558e039ec76c70d53";
 const twilio = require('twilio')(accountSid, authToken);
 const MongoStore = require('connect-mongo')
 const generateAccessToken= (user)=>{
+ 
   return jwt.sign(
     {
-      id: user.userId,
+      _id: user._id,
       role: user.role
     },
     "access_key",
-    { expiresIn: "1d" }
+    { expiresIn: "5s" }
   );
 }
 
 const generateRefreshToken= (user)=>{
   return jwt.sign(
     {
-      id: user.userId,
+      _id: user._id,
       role: user.role  
     },
     "refresh_key",
@@ -90,7 +91,7 @@ class AuthController {
     // Save refreshToken to Cookie
     res.cookie("refreshtoken", refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       path: "/",
       sameSite: "strict",
     });
@@ -131,7 +132,7 @@ class AuthController {
       refreshTokens.save()
       res.cookie("refreshtoken", newRefreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         path: "/",
         sameSite: "strict",
       });
@@ -174,7 +175,7 @@ class AuthController {
         // Save refreshToken to Cookie
         res.cookie("refreshtoken", refreshToken, {
           httpOnly: true,
-          secure: false,
+          secure: true,
           path: "/",
           sameSite: "strict",
         });
@@ -239,7 +240,7 @@ class AuthController {
             // Save refreshToken to Cookie
             res.cookie("refreshtoken", refreshToken, {
               httpOnly: true,
-              secure: false,
+              secure: true,
               path: "/",
               sameSite: "strict",
             });
@@ -266,7 +267,7 @@ class AuthController {
                       // Save refreshToken to Cookie
                       res.cookie("refreshtoken", refreshToken, {
                         httpOnly: true,
-                        secure: false,
+                        secure: true,
                         path: "/",
                         sameSite: "strict",
                       });
@@ -298,7 +299,7 @@ class AuthController {
           // Save refreshToken to Cookie
           res.cookie("refreshtoken", refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
           });
@@ -325,7 +326,7 @@ class AuthController {
                   // Save refreshToken to Cookie
                   res.cookie("refreshtoken", refreshToken, {
                     httpOnly: true,
-                    secure: false,
+                    secure: true,
                     path: "/",
                     sameSite: "strict",
                   });
@@ -368,9 +369,9 @@ class AuthController {
       // Save refreshToken to Cookie
       res.cookie("refreshtoken", refreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         path: "/",
-        // sameSite: "strict",
+        sameSite: "strict",
       });
       // req.session.refreshToken= refreshToken
       // Exclude pass .0  

@@ -3,8 +3,14 @@ import { OrderService, ProductService, UserService } from "../../services";
 import WidgetItem from "./WidgetItem";
 import { BsPhone } from "react-icons/bs";
 import { GiStabbedNote } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/user/userSlice";
+import { createAxios } from "../../api/createInstance";
 
 const Widget = () => {
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   return (
     <div className="grid grid-cols-3 gap-6">
       <WidgetItem

@@ -21,18 +21,18 @@ const getBrandsByCategory = async (category) => {
   return res;
 };
 
-const createBrand = async (data) => {
-  let res = await axiosInstance.post("/brand/new", data);
+const createBrand = async (data,axisosJWT) => {
+  let res = await axisosJWT.post("/brand/new", data);
   return res;
 };
 
-const updateBrandById = async (id, data) => {
-  let res = await axiosInstance.put(`/brand/edit/${id}`, data);
+const updateBrandById = async (id, data,axisosJWT) => {
+  let res = await axisosJWT.put(`/brand/edit/${id}`, data);
   return res;
 };
 
-const deleteBrandById = async (id) => {
-  let res = await axiosInstance.delete(`/brand/delete/${id}`);
+const deleteBrandById = async (id,axisosJWT) => {
+  let res = await axisosJWT.delete(`/brand/delete/${id}`);
   return res;
 };
 

@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsFillChatDotsFill, BsThreeDots } from 'react-icons/bs';
 import Star from './Star';
 import { toast } from 'react-toastify';
 import RatingCommentSkeleton from './RatingCommentSkeleton';
 import { _addDiscussRating } from '../../services/rating.service';
+import { login } from '../../redux/user/userSlice';
+import { createAxios } from '../../api/createInstance';
 
 const Comment = ({ isLoading, showedProduct, ratingProduct, fetchRatingProductData }) => {
     const currentUser = useSelector((state) => state?.user?.currentUser);
-
+    const dispath = useDispatch()
     const [discuss, setDiscuss] = useState();
     const [contentInput, setContentInput] = useState('');
     const [currentRating, setCurrentRating] = useState();
     const [isExpand, setIsExpand] = useState(false);
-
+    let axiosJWT = createAxios(currentUser, dispath, login);
     const handleToggleShowDiscuss = (comment) => {
         setCurrentRating(comment);
         setDiscuss(comment?.discuss);
@@ -28,7 +30,7 @@ const Comment = ({ isLoading, showedProduct, ratingProduct, fetchRatingProductDa
             content: contentInput,
         };
 
-        await _addDiscussRating(currentRating?._id, newDiscuss);
+        await _addDiscussRating(currentRating?._id, newDiscuss,axiosJWT,currentUser?._id);
 
         setDiscuss((state) => [...state, newDiscuss]);
         fetchRatingProductData();

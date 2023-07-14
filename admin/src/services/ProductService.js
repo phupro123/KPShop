@@ -18,24 +18,24 @@ const getProductById = async (id) => {
   return res;
 };
 
-const createProduct = async (data) => {
-  let res = await axiosInstance.post("/product/new", {
+const createProduct = async (data,axiosJWT) => {
+  let res = await axiosJWT.post("/product/new", {
     ...data,
     discount: (data.discount / 100).toFixed(2),
   });
   return res;
 };
 
-const updateProductById = async (id, data) => {
-  let res = await axiosInstance.put(`/product/edit/${id}`, {
+const updateProductById = async (id, data,axiosJWT) => {
+  let res = await axiosJWT.put(`/product/edit/${id}`, {
     ...data,
     discount: (data.discount / 100).toFixed(2),
   });
   return res;
 };
 
-const deleteProductById = async (id) => {
-  let res = await axiosInstance.delete(`/product/delete/${id}`);
+const deleteProductById = async (id,axiosJWT) => {
+  let res = await axiosJWT.delete(`/product/delete/${id}`);
   return res;
 };
 

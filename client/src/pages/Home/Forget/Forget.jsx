@@ -5,13 +5,17 @@ import './password.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { _editForgetPassword, _editPass } from '../../../redux/user/userApi';
+import { _editForgetPassword, } from '../../../redux/user/userApi';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 function Forget({title}) {
    
     const currentUser = useSelector((state) => state.user?.currentUser);
     const param = useParams('id');
     const dispatch = useDispatch();
     const naviage = useNavigate()
+    let axiosJWT = createAxios(currentUser, dispatch, login);
+
     useEffect(() => {
         document.title = title;
     }, []);
@@ -55,7 +59,7 @@ function Forget({title}) {
                 id:param.id,
                 password: password
             }
-            await _editForgetPassword(data)
+            await _editForgetPassword(data,axiosJWT,currentUser?._id)
             naviage('/')
         }
         

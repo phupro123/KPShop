@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     _changeMail,
     _checkMail,
-    _editPass,
-    _editPhone,
-    _editUser,
+
     _verifyChangeMail,
 } from '../../../redux/user/userApi';
 import { CgSpinner } from 'react-icons/cg';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
 import PinInput from 'react-pin-input';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 function Mail({ title }) {
     const [check, setCheck] = useState(false);
@@ -25,6 +25,8 @@ function Mail({ title }) {
 
     const dispatch = useDispatch();
     const naviage = useNavigate();
+    let axiosJWT = createAxios(currentUser, dispatch, login);
+
     useEffect(() => {
         document.title = title;
     }, []);
@@ -37,7 +39,7 @@ function Mail({ title }) {
             return;
         }
         setLoading(true);
-        await _checkMail(dispatch, { username: number }).then((e) => {
+        await _checkMail(dispatch, { username: number },currentUser._id,axiosJWT).then((e) => {
             if (e === 'Địa chỉ email đã được sử dụng') {
                 setCheck(true);
                 return;
@@ -45,7 +47,7 @@ function Mail({ title }) {
             const data = {
                 phone: number,
             };
-            _changeMail(data);
+            _changeMail(data,axiosJWT,currentUser?._id);
             setLoading(false);
             setShowOTP(true);
             toast.success('Mã xác thực OTP đã được gửi!');
@@ -59,7 +61,7 @@ function Mail({ title }) {
             otp: otp,
             user: currentUser?._id,
         };
-        await _verifyChangeMail(data, dispatch).then((e) => {
+        await _verifyChangeMail(data, axiosJWT,currentUser?._id).then((e) => {
             if (e === 'Your OTP was wrong!') {
                 toast.error('Mã sai xác thực sai hoặc hết hạn!');
             } else {

@@ -5,6 +5,8 @@ import { isEmpty, reduce } from 'lodash';
 import { updateRatingProductById } from '../../services/product.service';
 import { toast } from 'react-toastify';
 import { _newRating } from '../../services/rating.service';
+import { login } from '../../redux/user/userSlice';
+import { createAxios } from '../../api/createInstance';
 
 const RatingModal = ({ phoneData, ratingProduct, handleCloseModal, fetchRatingProductData, getProductData }) => {
     const currentUser = useSelector((state) => state?.user?.currentUser);
@@ -12,7 +14,7 @@ const RatingModal = ({ phoneData, ratingProduct, handleCloseModal, fetchRatingPr
 
     const [indexStar, setIndexStar] = useState(0);
     const [contentInput, setContentInput] = useState('');
-
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     const totalStar = useMemo(() => {
         if (isEmpty(ratingProduct)) return 0;
         const total = reduce(
@@ -41,7 +43,7 @@ const RatingModal = ({ phoneData, ratingProduct, handleCloseModal, fetchRatingPr
                 user: currentUser,
                 content: contentInput,
                 star: indexStar,
-            });
+            },axiosJWT,currentUser?._id);
             await updateRatingProductById(
                 phoneData._id,
                 (totalStar + indexStar) / (ratingProduct.length + 1),

@@ -4,16 +4,19 @@ import './Order.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { numberWithCommas } from '../../utils';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { postOrders, _editOrder } from '../../redux/order/ordersApi';
+import { postOrders } from '../../redux/order/ordersApi';
 import { clearCart } from '../../redux/shopping-cart/cartItemsSlide';
 import { momo } from '../../services/payment';
 import { toast } from 'react-toastify';
 import { _succesOrder } from '../../redux/user/userApi';
+import { login } from '../../redux/user/userSlice';
+import { createAxios } from '../../api/createInstance';
 const Order = ({}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const order = useSelector((state) => state.order.order.data);
     const currentUser = useSelector((state) => state.user?.currentUser);
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     const notify = () => toast.success('Đặt hàng thành công!');
     const handleConfirm = async () => {
         const payment = getPayment();
@@ -23,11 +26,11 @@ const Order = ({}) => {
         }
         const data = { ...order, payment };
 
-        postOrders(dispatch, data);
+        postOrders(dispatch, data,axiosJWT,currentUser._id);
         notify();
         dispatch(clearCart());
         if(currentUser?.username){
-            await _succesOrder(data)
+            await _succesOrder(data,axiosJWT,currentUser?._id)
         }
         
         if (payment.name === 'momo') {

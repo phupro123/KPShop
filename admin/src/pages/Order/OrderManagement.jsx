@@ -8,6 +8,9 @@ import OrderDetail from "./Components/OrderDetail";
 import OrderStatus from "./Components/OrderStatus";
 import { OrderService } from "../../services";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { createAxios } from "../../api/createInstance";
+import { login } from "../../redux/user/userSlice";
 
 const OrdeManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +20,9 @@ const OrdeManagement = () => {
   const [isShowDetailModal, setIsShowDetailModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const selectedOrder = useMemo(() => {
     return orderData.find((item) => item._id === selectedOrderId) ?? null;
   }, [selectedOrderId, orderData]);
@@ -39,7 +44,7 @@ const OrdeManagement = () => {
     setIsLoading(true);
 
     try {
-      const { data, meta } = await OrderService.getOrders(queryParams);
+      const { data, meta } = await OrderService.getOrders(axiosJWT,queryParams);
 
       setOrderData(data);
       setIsLoading(false);

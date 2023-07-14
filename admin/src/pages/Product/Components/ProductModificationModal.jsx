@@ -10,6 +10,9 @@ import { BrandService, CategoryService } from "../../../services";
 import { values } from "lodash";
 import { RAMEnum } from "../../../Constants/Enums";
 import Textarea from "../../../components/Form/TextArea/TextArea";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/user/userSlice";
+import { createAxios } from "../../../api/createInstance";
 
 const DEFAULT_VALUE = {
   title: "",
@@ -37,7 +40,9 @@ const ProductModificationModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [brandOptions, setBrandOptions] = useState([]);
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const {
     control,
     reset,
@@ -55,7 +60,7 @@ const ProductModificationModal = ({
   const handleCreateProduct = useCallback(
     async (formData) => {
       try {
-        await onCreate(formData);
+        await onCreate(formData,axiosJWT);
         toast.success("The product has been updated successfully.");
         onCreated();
         onClose();
@@ -72,7 +77,7 @@ const ProductModificationModal = ({
     async (formData) => {
       if (!product) return;
       try {
-        await onEdit(product._id, formData);
+        await onEdit(product._id, formData,axiosJWT);
         toast.success("The product has been updated successfully.");
         onEdited();
         onClose();

@@ -3,12 +3,14 @@ import './phone.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { _editPass, _editPhone, _editUser } from '../../../redux/user/userApi';
+import {  _checkPhone, _editPhone,  } from '../../../redux/user/userApi';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { auth } from '../../../utils/firebase.config';
 import { CgSpinner } from 'react-icons/cg';
 import { BsFillShieldLockFill } from 'react-icons/bs';
 import PinInput from 'react-pin-input';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 const Phone = ({ title }) => {
     const currentUser = useSelector((state) => state.user?.currentUser);
@@ -16,9 +18,11 @@ const Phone = ({ title }) => {
     const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
     const [input0, setInput0] = useState('');
-
+    const [check, setCheck] = useState(false);
     const dispatch = useDispatch();
     const naviage = useNavigate();
+    let axiosJWT = createAxios(currentUser, dispatch, login);
+
     useEffect(() => {
         document.title = title;
     }, []);
@@ -40,12 +44,19 @@ const Phone = ({ title }) => {
         }
     };
 
-    const onSignup = (e) => {
+    const onSignup = async(e) => {
         e.preventDefault();
         if (number === '') {
             setInput0('has-error');
             return;
         }
+        await _checkPhone( { phone: number },currentUser._id,axiosJWT).then((e) => {
+            if (e === 'Phone đã được sử dụng') {
+                setCheck(true);
+                return;
+            }
+           
+        });
         setLoading(true);
         onCaptchVerify();
 
@@ -76,7 +87,7 @@ const Phone = ({ title }) => {
                 const data = {
                     phone: number,
                 };
-                await _editPhone(dispatch, data, currentUser?._id);
+                await _editPhone(dispatch, data, currentUser?._i,axiosJWT);
                 setLoading(false);
                 naviage('/account');
             })
@@ -149,6 +160,13 @@ const Phone = ({ title }) => {
                                         />
                                     </div>
                                 </div>
+                                {check ? (
+                                        <div className="text-sm text-red-500">
+                                            Số điện đã được sử dụng vui lòng chọn lại
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
                                 <button
                                     type="submit"
                                     disabled=""

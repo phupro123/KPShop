@@ -7,6 +7,9 @@ import ProductHeaderActions from "./Components/ProductHeaderAction";
 import ProductTable from "./Components/ProductTable";
 import { ProductService } from "../../services";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/user/userSlice";
+import { createAxios } from "../../api/createInstance";
 
 const ProductManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +19,9 @@ const ProductManagement = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const selectedProduct = useMemo(() => {
     return productData.find((item) => item._id === selectedProductId) ?? null;
   }, [selectedProductId, productData]);
@@ -58,7 +63,7 @@ const ProductManagement = () => {
     }
 
     try {
-      await ProductService.deleteProductById(selectedProduct?._id);
+      await ProductService.deleteProductById(selectedProduct?._id,axiosJWT);
 
       toast.success("The product has been deleted successfully.");
 

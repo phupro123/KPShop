@@ -10,9 +10,13 @@ import { useForm } from 'react-hook-form';
 import Avatar from '../../../../components/Avatar/Avatar';
 import ChangeAvatarModal from './ChangeProfileModal';
 import { BsCameraFill } from 'react-icons/bs';
+import { login } from '../../../../redux/user/userSlice';
+import { createAxios } from '../../../../api/createInstance';
 
 function LeftProfile(props) {
     let { currentUser } = props;
+   
+   
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isShowChangeProfileModal, setIsShowChangeProfileModal] = useState(false);
 
@@ -33,11 +37,11 @@ function LeftProfile(props) {
     });
 
     const dispatch = useDispatch();
-
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     const handleSubmit = useFormSubmit((formData) => {
         setIsSubmitting(true);
 
-        _editUser(dispatch, formData, currentUser?._id)
+        _editUser(dispatch, formData, currentUser?._id,axiosJWT)
             .then(() => {
                 toast.success('Cập nhật thông tin thành công!');
             })

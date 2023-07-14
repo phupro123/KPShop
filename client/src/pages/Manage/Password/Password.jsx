@@ -5,11 +5,15 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { _checkPassword, _editPass } from '../../../redux/user/userApi';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 function Password({ title }) {
     const currentUser = useSelector((state) => state.user?.currentUser);
 
     const dispatch = useDispatch();
     const naviage = useNavigate();
+    let axiosJWT = createAxios(currentUser, dispatch, login);
+
     useEffect(() => {
         document.title = title;
     }, []);
@@ -32,7 +36,7 @@ function Password({ title }) {
         return regExp.test(string) && string.length >= 8;
     };
     useEffect(()=>{
-       _checkPassword({username:currentUser?.username}).then((e) => {
+       _checkPassword({username:currentUser?.username},currentUser?._id,axiosJWT).then((e) => {
             if (e === 'Có pass') {
                 sethavePassword(true);
                 return;
@@ -65,7 +69,7 @@ function Password({ title }) {
             const data = {
                 password: password,
             };
-            await _editPass(dispatch, data, currentUser?._id);
+            await _editPass(dispatch, data, currentUser?._id,axiosJWT);
             naviage('/account');
         }
     };

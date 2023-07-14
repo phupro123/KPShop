@@ -20,7 +20,7 @@ const WidgetItem = ({ title, to, getData, icon }) => {
 
     try {
       const { meta } =
-        title === "user" ? await getData(axiosJWT) : await getData();
+        title === "user" ||title=="order" ? await getData(axiosJWT) : await getData();
 
       setIsLoading(false);
       setTotalRows(meta.total);

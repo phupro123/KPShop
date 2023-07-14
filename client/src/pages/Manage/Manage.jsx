@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { _getAllOrders } from '../../redux/order/ordersApi';
 import Address from './Address';
 import Favorite from './Favorite';
 import History from './History/History';

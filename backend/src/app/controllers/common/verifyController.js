@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   //ACCESS TOKEN FROM HEADER, REFRESH TOKEN FROM COOKIE
   const token = req.headers.token;
+  // console.log(token)
   //const refreshToken = req.cookies.refreshToken;
   if (token) {
     const accessToken = token.split(" ")[1];
@@ -21,7 +22,9 @@ const verifyToken = (req, res, next) => {
 // Middleware Authorized user 
 const verifyTokenAndUserAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.user.role === "0") {
+    // console.log(req.user )
+    // console.log(req.params)
+    if (req.user._id === req?.params?.id || req.user.role === "0") {
       next();
     } else {
       return res.status(403).json("You're not allowed to do that!");
@@ -32,6 +35,7 @@ const verifyTokenAndUserAuthorization = (req, res, next) => {
 // Middleware Authorized admin
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
+    console.log(req.user)
     if (req.user.role === "0") {
       next();
     } else {
@@ -43,7 +47,7 @@ const verifyTokenAndAdmin = (req, res, next) => {
 const verifyTokenAndSeller = (req, res, next) => {
   verifyToken(req, res, () => {
     if (
-      (req.user.id === req.params.id && req.user.role === "2") ||
+      (req.user._id === req.params.id && req.user.role === "2") ||
       req.user.role == "1"
     ) {
       next();

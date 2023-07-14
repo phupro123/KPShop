@@ -7,6 +7,9 @@ import { brandFormSchema } from "../../../components/Schemas/brandFormSchema";
 import { toast } from "react-toastify";
 import { CategoryService } from "../../../services";
 import { values } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/user/userSlice";
+import { createAxios } from "../../../api/createInstance";
 
 const DEFAULT_VALUE = {
   name: "",
@@ -36,11 +39,13 @@ const BrandModificationModal = ({
     resolver: yupResolver(brandFormSchema()),
     defaultValues: DEFAULT_VALUE,
   });
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const handleCreateBrand = useCallback(
     async (formData) => {
       try {
-        await onCreate(formData);
+        await onCreate(formData,axiosJWT);
         toast.success("The brand has been updated successfully.");
         onCreated();
         onClose();
@@ -57,7 +62,7 @@ const BrandModificationModal = ({
     async (formData) => {
       if (!brand) return;
       try {
-        await onEdit(brand._id, formData);
+        await onEdit(brand._id, formData,axiosJWT);
         toast.success("The brand has been updated successfully.");
         onEdited();
         onClose();

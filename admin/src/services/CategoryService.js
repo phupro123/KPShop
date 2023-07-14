@@ -16,18 +16,18 @@ const getCategoryById = async (id) => {
   return res;
 };
 
-const createCategory = async (data) => {
-  let res = await axiosInstance.post("/category/new", data);
+const createCategory = async (data,axiosJWT) => {
+  let res = await axiosJWT.post("/category/new", data);
   return res;
 };
 
-const updateCategoryById = async (id, data) => {
-  let res = await axiosInstance.put(`/category/edit/${id}`, data);
+const updateCategoryById = async (id, data,axiosJWT) => {
+  let res = await axiosJWT.put(`/category/edit/${id}`, data);
   return res;
 };
 
-const deleteCategoryById = async (id) => {
-  let res = await axiosInstance.delete(`/category/delete/${id}`);
+const deleteCategoryById = async (id,axiosJWT) => {
+  let res = await axiosJWT.delete(`/category/delete/${id}`);
   return res;
 };
 

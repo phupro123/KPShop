@@ -7,6 +7,9 @@ import VoucherHeaderAction from "./Components/VoucherHeaderAction";
 import VoucherTable from "./Components/VoucherTable";
 import { VoucherService } from "../../services";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { createAxios } from "../../api/createInstance";
+import { login } from "../../redux/user/userSlice";
 
 const VoucherManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +19,9 @@ const VoucherManagement = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
 
   const selectedVoucher = useMemo(() => {
     return (
@@ -44,7 +50,7 @@ const VoucherManagement = () => {
     setIsLoading(true);
 
     try {
-      const { data, meta } = await VoucherService.getVouchers(queryParams);
+      const { data, meta } = await VoucherService.getVouchers(queryParams,axiosJWT);
 
       setVoucherData(data);
       setIsLoading(false);
@@ -60,7 +66,7 @@ const VoucherManagement = () => {
     }
 
     try {
-      await VoucherService.deleteVoucherById(selectedVoucher?._id);
+      await VoucherService.deleteVoucherById(selectedVoucher?._id,axiosJWT);
 
       toast.success("The voucher has been deleted successfully.");
 

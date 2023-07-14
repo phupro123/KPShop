@@ -5,13 +5,17 @@ import { isEmpty } from 'lodash';
 import { BsHeartbreakFill } from 'react-icons/bs';
 import { _getWishList } from '../../../redux/user/userApi';
 import { useEffect } from 'react';
+import { createAxios } from '../../../api/createInstance';
+import { login } from '../../../redux/user/userSlice';
 
 const Favorite = () => {
-    const disspath= useDispatch()
+    const dispath= useDispatch()
     const user = useSelector((state) => state?.user?.currentUser);
+    let axiosJWT = createAxios(user, dispath, login);
+
     useEffect(() => {
         const data = user
-        _getWishList(data,disspath);
+        _getWishList(data,dispath);
     }, []);
     return (
         <div className="flex flex-col space-y-4 text-base">

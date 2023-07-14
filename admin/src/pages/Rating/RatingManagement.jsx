@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import RatingModificationModal from "./Components/RatingModificationModal";
 import RatingTable from "./Components/RatingTable";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/user/userSlice";
+import { createAxios } from "../../api/createInstance";
 
 const RatingManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +18,9 @@ const RatingManagement = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
 
   const selectedRating = useMemo(() => {
     return ratingData.find((item) => item._id === selectedRatingId) ?? null;
@@ -53,7 +59,7 @@ const RatingManagement = () => {
     }
 
     try {
-      await RatingService.deleteRatingById(selectedRating?._id);
+      await RatingService.deleteRatingById(selectedRating?._id,axiosJWT);
 
       toast.success("The rating has been deleted successfully.");
 

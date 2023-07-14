@@ -88,7 +88,7 @@ class RatingController {
   //[PUT]  /rating/:id/addDiscuss
   async addDiscussRating(req, res, next) {
     await Rating.updateOne(
-      { _id: req.params.id },
+      { _id: req.params.rid },
       { $push: { discuss: req.body } }
     )
       .then(() => res.status(200).json("Reply Success"))

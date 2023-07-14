@@ -11,25 +11,19 @@ const {
 
 //local/order/all
 //GET ALL USERS
-router.get(
-  "/getseller/:id",
-  verifyTokenAndSeller,
-  OrderController.getAllorderByIdSeller
-);
+// router.get(
+//   "/getseller/:id",
+//   verifyTokenAndSeller,
+//   OrderController.getAllorderByIdSeller
+// );
 
 // tat ca Order 1 ng
-router.get("/getbyid/:id", OrderController.getAllorderById);
+router.get("/getbyid/:oid/:id",verifyTokenAndUserAuthorization, OrderController.getAllorderById);
 
-
-
-router.get("/all", OrderController.getAllorder);
+router.get("/all",verifyTokenAndAdmin, OrderController.getAllorder);
 
 //DELETE USER
-router.delete(
-  "/delete/:id",
-  verifyTokenAndUserAuthorization,
-  OrderController.deleteorder
-);
+router.delete("/delete/:id",verifyTokenAndAdmin,OrderController.deleteorder);
 
 router.get(
   "/get/:id",
@@ -37,12 +31,13 @@ router.get(
   OrderController.getorder
 );
 
-router.put("/edit/:id", OrderController.update);
+router.put("/cancel/:Oid/:id",verifyTokenAndUserAuthorization, OrderController.cancel);
 
-router.post("/new", OrderController.neworder);
+router.put("/edit/:id",verifyTokenAndAdmin, OrderController.update);
+
+router.post("/new/:id", verifyTokenAndUserAuthorization,OrderController.neworder);
 
 
-
-router.get("/getLength", OrderController.getorderLength);
+// router.get("/getLength", OrderController.getorderLength);
 
 module.exports = router;

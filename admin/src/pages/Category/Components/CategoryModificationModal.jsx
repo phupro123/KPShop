@@ -5,6 +5,9 @@ import { Input } from "../../../components/Form";
 import { Modal } from "../../../components/Modal";
 import { categoryFormSchema } from "../../../components/Schemas/categoryFormSchema";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/user/userSlice";
+import { createAxios } from "../../../api/createInstance";
 
 const DEFAULT_VALUE = {
   name: "",
@@ -32,11 +35,13 @@ const CategoryModificationModal = ({
     resolver: yupResolver(categoryFormSchema()),
     defaultValues: DEFAULT_VALUE,
   });
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const handleCreateCategory = useCallback(
     async (formData) => {
       try {
-        await onCreate(formData);
+        await onCreate(formData,axiosJWT);
         toast.success("The category has been updated successfully.");
         onCreated();
         onClose();
@@ -53,7 +58,7 @@ const CategoryModificationModal = ({
     async (formData) => {
       if (!category) return;
       try {
-        await onEdit(category._id, formData);
+        await onEdit(category._id, formData,axiosJWT);
         toast.success("The category has been updated successfully.");
         onEdited();
         onClose();

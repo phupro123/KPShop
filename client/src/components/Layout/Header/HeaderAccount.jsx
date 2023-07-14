@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Login from '../../Login/Login';
 import { useSelector } from 'react-redux';
-import { _getSuccess, _logout } from '../../../redux/user/userApi';
+import { _logout } from '../../../redux/user/userApi';
 import { RxAvatar } from 'react-icons/rx';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { Avatar } from '../../Avatar';

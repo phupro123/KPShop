@@ -5,7 +5,7 @@ import { numberWithCommas } from '../../utils';
 import { useCart } from '../../hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveOrders } from '../../redux/order/ordersApi';
-import { _editUser } from '../../redux/user/userApi';
+
 import { BsChevronLeft } from 'react-icons/bs';
 import { Input, Select } from '../../components/Form';
 import { Button } from '../../components/Button';

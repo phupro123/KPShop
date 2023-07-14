@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import { _getAllOrders } from '../../redux/order/ordersApi';
 import { MdLocationOn, MdPerson, MdOutlineListAlt } from 'react-icons/md';
 import { BsPostcardHeart } from 'react-icons/bs';
 const sidebars = [

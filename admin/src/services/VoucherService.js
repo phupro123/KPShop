@@ -1,7 +1,7 @@
 import { axiosInstance } from "../api/axios.config";
 
-const getVouchers = async (params) => {
-  const response = await axiosInstance.get("/voucher/all", { params });
+const getVouchers = async (params,axiosJWT) => {
+  const response = await axiosJWT.get("/voucher/all", { params });
 
   return {
     data: response.data.map((item) => {
@@ -13,23 +13,23 @@ const getVouchers = async (params) => {
   };
 };
 
-const getVoucherById = async (id) => {
-  let res = await axiosInstance.get(`/voucher/get/${id}`);
+const getVoucherById = async (id,axiosJWT) => {
+  let res = await axiosJWT.get(`/voucher/get/${id}`);
   return res;
 };
 
-const createVoucher = async (data) => {
-  let res = await axiosInstance.post("/voucher/new", data);
+const createVoucher = async (data,axiosJWT) => {
+  let res = await axiosJWT.post("/voucher/new", data);
   return res;
 };
 
-const updateVoucherById = async (id, data) => {
-  let res = await axiosInstance.put(`/voucher/edit/${id}`, data);
+const updateVoucherById = async (id, data,axiosJWT) => {
+  let res = await axiosJWT.put(`/voucher/edit/${id}`, data);
   return res;
 };
 
-const deleteVoucherById = async (id) => {
-  let res = await axiosInstance.delete(`/voucher/delete/${id}`);
+const deleteVoucherById = async (id,axiosJWT) => {
+  let res = await axiosJWT.delete(`/voucher/delete/${id}`);
   return res;
 };
 

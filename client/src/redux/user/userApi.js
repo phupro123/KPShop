@@ -1,24 +1,44 @@
 import axiosClient from '../../api/axios.config';
 import { login, logout } from './userSlice';
+export const setAccessToken = (accessToken) => {
+    localStorage.setItem("accessToken", JSON.stringify(accessToken));
+  };
+  
+ export const getAccessToken = () => {
+    const accessToken = localStorage.getItem("accessToken");
+  
+    if (!accessToken) {
+      return null;
+    }
+  
+    return JSON.parse(accessToken);
+  };
+  
+export  const removeAccessToken = () => {
+    localStorage.removeItem("accessToken");
+  };
 
 export const _loginPass = async (data, dispatch, navigate) => {
     let res = await axiosClient.post('/auth/login', data);
     dispatch(login(res));
-    if (res) {
-        navigate('/');
-    }
+    setAccessToken(res.accessToken);
+    // if (res) {
+    //     navigate('/');
+    // }
 };
 
-export const _getSuccess = async (dispatch, navigate) => {
-    const res = await axiosClient.get(
-        '/auth/login/success',
-        { withCredentials: true },
-        {
-            headers: { 'Access-Control-Allow-Credentials': true },
-        },
-    );
-
-    dispatch(login(res));
+export const _getSuccess = async (dispatch, navigate,user) => {
+    if(user==null){
+        const res = await axiosClient.get(
+            '/auth/login/success',
+            { withCredentials: true },
+            {
+                headers: { 'Access-Control-Allow-Credentials': true },
+            },
+        );
+        dispatch(login(res));
+        setAccessToken(res.accessToken);
+    }
 };
 
 export const _loginPhone = async (data, dispatch, navigate) => {
@@ -28,9 +48,10 @@ export const _loginPhone = async (data, dispatch, navigate) => {
 export const _verifyPhone = async (data, dispatch, navigate) => {
     let res = await axiosClient.post('/auth/phone/verify', data);
     dispatch(login(res));
-    if (res) {
-        navigate('/');
-    }
+    setAccessToken(res.accessToken);
+    // if (res) {
+    //     navigate('/');
+    // }
 };
 
 export const _logout = async (dispatch, navigate) => {
@@ -38,94 +59,119 @@ export const _logout = async (dispatch, navigate) => {
         const b = await axiosClient.post('/auth/logout');
         // window.open('https://kpshop-backend.onrender.com/auth/logout', '_self');
         dispatch(logout());
-        // navigate('/');
+        removeAccessToken();
+        navigate('/');
     } catch (err) {}
 };
 
-export const _editUser = async (dispatch, data, id) => {
+export const _logoutTest = async (dispatch, ) => {
     try {
-        const res = await axiosClient.put(`/user/edit/${id}`, data);
+        const b = await axiosClient.post('/auth/logout');
+        // window.open('https://kpshop-backend.onrender.com/auth/logout', '_self');
+        dispatch(logout());
+        removeAccessToken();
+      
+    } catch (err) {}
+};
+export const _editUser = async (dispatch, data, id,axiotJWT) => {
+    try {
+        const res = await axiotJWT.put(`/user/edit/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
 
-export const _editPhone = async (dispatch, data, id) => {
+export const _getWishList= async ( data,dispatch,axiotJWT) => {
     try {
-        const res = await axiosClient.put(`/user/editPhone/${id}`, data);
+        const res = await axiotJWT.post(`/user/getWishList/${data._id}`, data);
+        dispatch(login(res))
+    } catch (err) {}
+};
+export const _editPhone = async (dispatch, data, id,axiotJWT) => {
+    try {
+        const res = await axiotJWT.put(`/user/editPhone/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
 
-export const _editPass = async (dispatch, data, id) => {
+export const _editPass = async (dispatch, data, id,axiotJWT) => {
     try {
-        const res = await axiosClient.put(`/user/editPass/${id}`, data);
+        const res = await axiotJWT.put(`/user/editPass/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
 
-// {
-//     "_id":"6360c477323aa241380d7be3",  id nguoi dùng
-//     "prodId": "2"
-// }
-export const _addWishList = async (dispatch, data) => {
+
+export const _addWishList = async (dispatch, data,axiotJWT) => {
     try {
-        const res = await axiosClient.post(`/user/addToWishList`, data);
+        const res = await axiotJWT.post(`/user/addToWishList/${data._id}`, data);
         dispatch(login(res));
     } catch (err) {
         console.log(err);
     }
 };
 
-export const _pushAddress = async (dispatch, data, id) => {
+export const _pushAddress = async (dispatch, data, id,axiotJWT) => {
     try {
-        const res = await axiosClient.put(`/user/pushAddress/${id}`, data);
+        const res = await axiotJWT.put(`/user/pushAddress/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
-export const _popAddress = async (dispatch, data, id) => {
+export const _popAddress = async (dispatch, data, id,axiotJWT) => {
     try {
-        const res = await axiosClient.put(`/user/popAddress/${id}`, data);
+        const res = await axiotJWT.put(`/user/popAddress/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
-export const _editAddress = async (dispatch, data, id) => {
+export const _editAddress = async (dispatch, data, id,axiotJWT) => {
     try {
-        const res = await axiosClient.put(`/user/editAddress/${id}`, data);
+        const res = await axiotJWT.put(`/user/editAddress/${id}`, data);
         dispatch(login(res));
     } catch (err) {}
 };
-
-export const _checkMail = async (dispatch, data) => {
+export const _checkPhone = async ( data,id,axiotJWT) => {
     try {
-        const res = await axiosClient.put('/user/checkMail', data);
+        const res = await axiotJWT.post(`/user/checkPhone/${id}`, data);
         return res;
     } catch (err) {}
 };
-export const _changeMail = async ( data, ) => {
+
+export const _checkMail = async (dispatch, data,id,axiotJWT) => {
     try {
-        const res = await axiosClient.post('/services/changeEmail', data);
+        const res = await axiotJWT.post(`/user/checkMail/${id}`, data);
+        return res;
+    } catch (err) {}
+};
+export const _checkPassword = async ( data,id,axiotJWT) => {
+    try {
+        const res = await axiotJWT.post(`/user/checkPassword/${id}`, data);
+        return res;
+    } catch (err) {}
+};
+export const _changeMail = async ( data, axiotJWT,id) => {
+    try {
+        const res = await axiotJWT.post(`/services/changeEmail/${id}`, data);
         
     } catch (err) {}
 };
 
-export const _verifyChangeMail= async ( data, dispatch) => {
+export const _verifyChangeMail= async ( data,axiotJWT,id) => {
     try {
-        const res = await axiosClient.post('/services/verifyChangeEmail', data);
+        const res = await axiotJWT.post(`/services/verifyChangeEmail${id}`, data);
         
        
         return res;
     } catch (err) {}
 };
 
-export const _forgetPass= async ( data, ) => {
+export const _forgetPass= async ( data,axiotJWT ,id) => {
     try {
-        const res = await axiosClient.post('/services/forgetPassword', data);
+        const res = await axiotJWT.post(`/services/forgetPassword/${id}`, data);
     } catch (err) {}
 };
 
-export const _editForgetPassword= async ( data) => {
+export const _editForgetPassword= async ( data,axiotJWT,id) => {
     try {
-        const res = await axiosClient.post('/services/editForgetPassword', data);
+        const res = await axiotJWT.post(`/services/editForgetPassword/${id}`, data);
     } catch (err) {}
 };
 export const _loginSucessPhone= async ( data,dispatch) => {
@@ -135,23 +181,12 @@ export const _loginSucessPhone= async ( data,dispatch) => {
     } catch (err) {}
 };
 
-export const _getWishList= async ( data,dispatch) => {
-    try {
-        const res = await axiosClient.post('/user/getWishList', data);
-        dispatch(login(res))
-    } catch (err) {}
-};
 
-export const _succesOrder= async ( data) => {
+
+export const _succesOrder= async ( data,axiotJWT,id) => {
     try {
-        const res = await axiosClient.post('/services/sucessOrder', data);
+        const res = await axiotJWT.post(`/services/sucessOrder/${id}`, data);
        
     } catch (err) {}
 };
 
-export const _checkPassword = async ( data) => {
-    try {
-        const res = await axiosClient.post('/user/checkPassword', data);
-        return res;
-    } catch (err) {}
-};

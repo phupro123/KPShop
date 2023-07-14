@@ -4,7 +4,10 @@ var router = express.Router();
 const uploadImage = require("../../services/uploadImage.js");
 const MailController= require("../../services/mail.js")
 const ChatController = require("../../services/chat.js")
-
+const {
+  verifyTokenAndAdmin,
+  verifyTokenAndUserAuthorization,
+} = require("../../app/controllers/common/verifyController.js");
 router.post("/uploadImage", (req, res) => {
     uploadImage(req.body.image)
       .then((url) => res.send(url))
@@ -20,21 +23,26 @@ router.post("/uploadMultipleImages", (req, res) => {
       .catch((err) => res.status(500).send(err));
 });
 
+//TEST 
 router.post("/sentEmail", (req, res) => {
   MailController.sentEmail()
   .then(response => res.send(response.message))
   .catch(error => res.status(500).send(error.message))
 });
-router.post("/changeEmail",  MailController.changeEmail);
 
-router.post("/verifyChangeEmail",  MailController.verifyOTP);
+// Cập nhật mail
+router.post("/changeEmail/:id",verifyTokenAndUserAuthorization,  MailController.changeEmail);
 
-router.post("/forgetPassword",  MailController.forgetPass);
+router.post("/verifyChangeEmail/:id",verifyTokenAndUserAuthorization,  MailController.verifyOTP);
 
-router.post("/sucessOrder",  MailController.orderSucess);
+// Quên Pass
+router.post("/forgetPassword/:id",verifyTokenAndUserAuthorization,  MailController.forgetPass);
 
-router.post("/editForgetPassword",  MailController.editForgetPass);
+router.post("/sucessOrder/:id", verifyTokenAndUserAuthorization, MailController.orderSucess);
 
+router.post("/editForgetPassword/:id",verifyTokenAndUserAuthorization,  MailController.editForgetPass);
+
+// Chat bot
 router.get("/webhook",ChatController.getWebhook);
 
 router.post("/webhook",ChatController.postWebhook);

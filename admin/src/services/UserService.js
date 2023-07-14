@@ -60,6 +60,7 @@ const _login = async (data, dispatch, navigate) => {
 };
 
 const _checkRequest = async ( dispatch) => {
+  await axiosInstance.post('/auth/logout');
   new Promise(() => {
     setTimeout(() => {
       dispatch(logout());
@@ -69,12 +70,13 @@ const _checkRequest = async ( dispatch) => {
 };
 
 const _logout = async (dispatch, navigate) => {
+  await axiosInstance.post('/auth/logout');
   new Promise(() => {
     setTimeout(() => {
       dispatch(logout());
       removeAccessToken();
       navigate("/");
-    }, 1000);
+    }, 100);
   });
 };
 

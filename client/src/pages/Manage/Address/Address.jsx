@@ -7,6 +7,8 @@ import AddressModificationModal from './AddressModificationModal';
 import { _editAddress, _popAddress, _pushAddress } from '../../../redux/user/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import AddressItem from './AddressItem';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 const Address = () => {
     const dispatch = useDispatch();
@@ -14,7 +16,7 @@ const Address = () => {
     const [isShowModificationModal, setIsShowModificationModal] = useState(false);
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
     const user = useSelector((state) => state?.user?.currentUser);
-
+    let axiosJWT = createAxios(user, dispatch, login);
     const selectedAddress = useMemo(() => {
         return user?.address?.find((addressItem) => addressItem?.mnemonicName === selectedAddressId) ?? null;
     }, [selectedAddressId, user]);
@@ -39,7 +41,7 @@ const Address = () => {
         }
 
         try {
-            await _popAddress(dispatch, selectedAddress, user._id);
+            await _popAddress(dispatch, selectedAddress, user._id,axiosJWT);
 
             toast.success('The address has been deleted successfully.');
         } catch (error) {

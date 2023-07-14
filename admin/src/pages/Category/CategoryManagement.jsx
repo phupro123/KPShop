@@ -7,6 +7,9 @@ import CategoryModificationModal from "./Components/CategoryModificationModal";
 import CategoryHeaderAction from "./Components/CategoryHeaderAction";
 import CategoryTable from "./Components/CategoryTable";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { createAxios } from "../../api/createInstance";
+import { login } from "../../redux/user/userSlice";
 
 const CategoryManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +19,9 @@ const CategoryManagement = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const selectedCategory = useMemo(() => {
     return categoryData.find((item) => item._id === selectedCategoryId) ?? null;
   }, [selectedCategoryId, categoryData]);
@@ -58,7 +63,7 @@ const CategoryManagement = () => {
     }
 
     try {
-      await CategoryService.deleteCategoryById(selectedCategory?._id);
+      await CategoryService.deleteCategoryById(selectedCategory?._id,axiosJWT);
 
       toast.success("The category has been deleted successfully.");
 

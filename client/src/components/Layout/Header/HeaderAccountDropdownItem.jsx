@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { _getSuccess, _logout } from '../../../redux/user/userApi';
+import {  _logout } from '../../../redux/user/userApi';
 
 const HeaderAccountDropdownItem = ({ dropdownItem, onCloseDropdown }) => {
     const dispatch = useDispatch();

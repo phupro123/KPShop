@@ -3,10 +3,8 @@ var router = express.Router();
 
 const ratingController = require("../../app/controllers/common/RatingController.js");
 const {
-  verifyToken,
   verifyTokenAndAdmin,
-  verifyTokenAndUserAuthorization,
-  verifyTokenAndSeller,
+  verifyTokenAndUserAuthorization
 } = require("../../app/controllers/common/verifyController.js");
 
 //GET RaTING PAGING
@@ -16,18 +14,18 @@ router.get("/paging/:id", ratingController.getRatingPage);
 router.get("/all", ratingController.getAllRating);
 
 //DELETE A RATING
-router.delete("/delete/:id", ratingController.deleteRating);
+router.delete("/delete/:id",verifyTokenAndAdmin, ratingController.deleteRating);
 
 //GET All RAING BY PRODUCT
 router.get("/get/product/:id", ratingController.getRatingByProduct);
 
 //EDIT A RATING
-router.put("/edit/:id", ratingController.updateRating);
+router.put("/edit/:id",verifyTokenAndAdmin, ratingController.updateRating);
 
 //ADD DISCUSS
-router.put("/:id/addDiscuss", ratingController.addDiscussRating);
+router.put("/:rid/addDiscuss/:id",verifyTokenAndUserAuthorization, ratingController.addDiscussRating);
 
 //NEW RATING
-router.post("/new", ratingController.newRating);
+router.post("/new/:id", verifyTokenAndUserAuthorization,ratingController.newRating);
 
 module.exports = router;

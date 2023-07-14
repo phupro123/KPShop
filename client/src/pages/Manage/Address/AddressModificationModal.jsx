@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { PATHS } from '../../../components/LocationForm/paths';
 import { values } from 'lodash';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 const DEFAULT_VALUE = {
     fullname: '',
@@ -40,6 +42,7 @@ const AddressModificationModal = ({ isOpen, selectedAddress, onClose, onCreate, 
 
     const user = useSelector((state) => state?.user?.currentUser);
     const dispatch = useDispatch();
+    let axiosJWT = createAxios(user, dispatch, login);
 
     const city = watch('city');
     const district = watch('district');
@@ -96,7 +99,7 @@ const AddressModificationModal = ({ isOpen, selectedAddress, onClose, onCreate, 
     const handleCreateaddress = useCallback(
         async (formData) => {
             try {
-                await onCreate(dispatch, formData, user._id);
+                await onCreate(dispatch, formData, user._id,axiosJWT);
                 toast.success('Thêm địa chỉ mới thành công.');
 
                 onClose();
@@ -118,7 +121,7 @@ const AddressModificationModal = ({ isOpen, selectedAddress, onClose, onCreate, 
                 newAddress: formData,
             };
             try {
-                await onEdit(dispatch, data, user._id);
+                await onEdit(dispatch, data, user._id,axiosJWT);
                 toast.success('Cập nhật địa chỉ thành công');
 
                 onClose();

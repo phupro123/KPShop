@@ -1,14 +1,18 @@
 import { MdEmail, MdPhone ,MdLock} from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import {  useNavigate } from 'react-router-dom';
-import {  _editUser } from '../../../../redux/user/userApi';
+import {  _editUser, _getWishList } from '../../../../redux/user/userApi';
 import { toast } from 'react-toastify';
 import { Axios } from 'axios';
+import { login } from '../../../../redux/user/userSlice';
+import { createAxios } from '../../../../api/createInstance';
+import { useEffect } from 'react';
 
 function RightProfile() {
     const currentUser = useSelector((state) => state.user?.currentUser);
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     const hanldPass = ()=>{
 
         if(!currentUser?.username){
@@ -27,18 +31,19 @@ function RightProfile() {
     }
 
     const handleFb = async()=>{
-        window.open(`https://kpshop-backend.onrender.com/auth/connect/facebook/${currentUser.userId}/1`, '_self');
+        window.open(`http://localhost:8000/auth/connect/facebook/${currentUser.userId}/1`, '_self');
+        
         
     }
     const handleGoolge = async()=>{
-        window.open(`https://kpshop-backend.onrender.com/auth/connect/google/${currentUser.userId}/1`, '_self');
+        window.open(`http://localhost:8000/auth/connect/google/${currentUser.userId}/1`, '_self');
         
     }
     const handleCancelFb = async()=>{
         const data ={
             fbId:""
         }
-       await _editUser (dispatch,data,currentUser._id)
+       await _editUser (dispatch,data,currentUser._id,axiosJWT)
                 .then(() => {
                  toast.success('Cập nhật thông tin thành công!');
     })}
@@ -46,11 +51,14 @@ function RightProfile() {
         const data ={
             googleId:""
         }
-       await _editUser (dispatch,data,currentUser._id)
+       await _editUser (dispatch,data,currentUser._id,axiosJWT)
                 .then(() => {
                  toast.success('Cập nhật thông tin thành công!');
     })
     }
+    useEffect(()=>{
+        _getWishList(currentUser,dispatch,axiosJWT);
+    },[])
     return (
         <div className="flex flex-col text-base space-y-4">
             <span className="font-semibold">Số điện thoại và Email</span>

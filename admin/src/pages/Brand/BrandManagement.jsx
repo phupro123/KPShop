@@ -7,6 +7,9 @@ import BrandModificationModal from "./Components/BrandModificationModal";
 import BrandHeaderAction from "./Components/BrandHeaderAction";
 import BrandTable from "./Components/BrandTable";
 import { setDocumentTitle } from "../../components/Utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/user/userSlice";
+import { createAxios } from "../../api/createInstance";
 
 const BrandManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +19,9 @@ const BrandManagement = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [totalRows, setTotalRows] = useState(0);
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const selectedBrand = useMemo(() => {
     return brandData.find((item) => item._id === selectedBrandId) ?? null;
   }, [selectedBrandId, brandData]);
@@ -58,7 +63,7 @@ const BrandManagement = () => {
     }
 
     try {
-      await BrandService.deleteBrandById(selectedBrand?._id);
+      await BrandService.deleteBrandById(selectedBrand?._id,axiosJWT);
 
       toast.success("The brand has been deleted successfully.");
 

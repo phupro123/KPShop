@@ -5,9 +5,12 @@ import { _editUser } from '../../../../redux/user/userApi';
 import { Modal } from '../../../../components/Modal';
 import { UploadInput } from '../../../../components/Form';
 import { toast } from 'react-toastify';
-
+import { createAxios } from "../../../../api/createInstance";
+import { login } from "../../../../redux/user/userSlice";
 const ChangeAvatarModal = ({ currentUser, isOpen, onClose, ...props }) => {
+  
     const dispatch = useDispatch();
+    let axiosJWT = createAxios(currentUser, dispatch, login);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,7 +19,7 @@ const ChangeAvatarModal = ({ currentUser, isOpen, onClose, ...props }) => {
     const handleSubmit = useFormSubmit(async (formData) => {
         setIsSubmitting(true);
         try {
-            await _editUser(dispatch, formData, currentUser?._id);
+            await _editUser(dispatch, formData, currentUser?._id,axiosJWT);
             toast.success('Cập nhật ảnh đại diện thành công!');
         } catch {
             toast.error('Đã có lỗi xảy ra trong quá trình cập nhật');

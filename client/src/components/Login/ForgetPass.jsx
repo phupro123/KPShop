@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { _forgetPass, _loginPass, _verifyPhone } from '../../redux/user/userApi';
 import { BsChevronLeft } from 'react-icons/bs';
 import { toast } from 'react-toastify';
@@ -9,13 +9,16 @@ import { useForm } from 'react-hook-form';
 import { forgetFormSchema } from './loginWithEmailFormSchema';
 import Button from '../Button/Button';
 import { useCallback, useState } from 'react';
+import { login } from '../../redux/user/userSlice';
+import { createAxios } from '../../api/createInstance';
 
 const ForgetPass = ({ handleToggleMail }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
- 
+    const currentUser = useSelector((state) => state.user?.currentUser);
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     const { control, handleSubmit: useFormSubmit } = useForm({
         resolver: yupResolver(forgetFormSchema()),
     });
@@ -24,7 +27,7 @@ const ForgetPass = ({ handleToggleMail }) => {
     const handleSubmit = useFormSubmit((formData) => {
         setIsSubmitting(true);
 
-        _forgetPass(formData)
+        _forgetPass(formData,axiosJWT,currentUser?._id)
             .then(() => {
                 toast.success('Vui lòng kiểm tra Email của bạn');
                 // handleToggleMail()

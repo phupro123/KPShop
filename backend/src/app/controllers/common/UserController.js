@@ -281,6 +281,15 @@ class UserController {
     }
     return res.status(200).json("");
   }
+  async checkPhone(req, res, next) {
+    const user = await User.findOne({ phone: req.body.phone });
+
+    // Check account
+    if (user) {
+      return res.status(200).json("Phone đã được sử dụng");
+    }
+    return res.status(200).json("");
+  }
   async getWishList(req, res) {
     const token = req.body.accessToken;
     const user = await User.findOne({ userId: req.body.userId }).populate(

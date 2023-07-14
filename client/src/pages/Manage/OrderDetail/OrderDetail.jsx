@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useEffect } from 'react';
-import { _editOrder, _getAllOrders, _getOrderDetail } from '../../../redux/order/ordersApi';
+import {  _getOrderDetail } from '../../../redux/order/ordersApi';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoOrder from './InfoOrder';
 import ProductOrder from './ProductOrder';

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import ItemOrder from './ItemOrder';
 import { Link } from 'react-router-dom';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 function History({ title }) {
     const statusOrder = ['Tất cả đơn', 'Đang xử lý', 'Chờ thanh toán', 'Đang vận chuyển', 'Đã giao', 'Đã hủy'];
@@ -12,8 +14,9 @@ function History({ title }) {
     const [status, setStatus] = useState('Tất cả đơn');
 
     const dispatch = useDispatch();
+    let axiosJWT = createAxios(currentUser, dispatch, login);
     useEffect(() => {
-        _getAllOrders(dispatch, currentUser?.userId);
+        _getAllOrders(dispatch, currentUser?.userId,axiosJWT,currentUser?._id);
         document.title = title;
     }, []);
 
@@ -25,7 +28,7 @@ function History({ title }) {
             id: e.target.id,
             status: 'Đã hủy',
         };
-        await _editOrder(data);
+        await _editOrder(data,axiosJWT,currentUser?._id);
         window.location.reload(false);
     };
 

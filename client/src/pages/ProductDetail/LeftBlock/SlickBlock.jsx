@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import { _addWishList } from '../../../redux/user/userApi';
 import { useMemo } from 'react';
 import { LoadingSkeleton } from '../../../components/Loading';
+import { login } from '../../../redux/user/userSlice';
+import { createAxios } from '../../../api/createInstance';
 
 const SlickBlock = ({ isLoading, phoneData }) => {
     const dispatch = useDispatch();
@@ -20,17 +22,24 @@ const SlickBlock = ({ isLoading, phoneData }) => {
         }
         return [phoneData.img, ...phoneData.gallery];
     }, [phoneData]);
+    let axiosJWT = createAxios(user, dispatch, login);
 
     const handleAddFavoriteList = useCallback(() => {
-        _addWishList(dispatch, {
-            _id: user._id,
-            prodId: phoneData?._id,
-        });
-        if (user?.wishlist.some((item) => item._id === phoneData?._id)) {
-            toast.success('Bạn đã xóa sản phẩm khỏi danh sách yêu thích');
-            return;
+        if(user==null){
+            toast.info("Vui lòng đăng nhập")
         }
-        toast.success('Bạn đã thêm sản phẩm vào danh sách yêu thích thành công');
+        else{
+            _addWishList(dispatch, {
+                _id: user._id,
+                prodId: phoneData?._id,
+            },axiosJWT);
+            if (user?.wishlist.some((item) => item._id === phoneData?._id)) {
+                toast.success('Bạn đã xóa sản phẩm khỏi danh sách yêu thích');
+                return;
+            }
+            toast.success('Bạn đã thêm sản phẩm vào danh sách yêu thích thành công');
+        }
+       
     }, [dispatch, user, phoneData, toast]);
 
     return (

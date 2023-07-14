@@ -6,6 +6,9 @@ import { Modal } from "../../../components/Modal";
 import { voucherFormSchema } from "../../../components/Schemas/voucherFormSchema";
 import { toast } from "react-toastify";
 import InputDate from "../../../components/Form/Input/InputDate/InputDate";
+import { useDispatch, useSelector } from "react-redux";
+import { createAxios } from "../../../api/createInstance";
+import { login } from "../../../redux/user/userSlice";
 
 const DEFAULT_VALUE = {
   title: "",
@@ -39,14 +42,16 @@ const VoucherModificationModal = ({
     resolver: yupResolver(voucherFormSchema()),
     defaultValues: DEFAULT_VALUE,
   });
-
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
   const handleCreateVoucher = useCallback(
     async (formData) => {
       try {
         await onCreate({
           ...formData,
           sale: (Number(formData.sale) / 100).toFixed(2),
-        });
+        },axiosJWT);
         toast.success("The voucher has been updated successfully.");
         onCreated();
         onClose();
@@ -66,7 +71,7 @@ const VoucherModificationModal = ({
         await onEdit(voucher._id, {
           ...formData,
           sale: (Number(formData.sale) / 100).toFixed(2),
-        });
+        },axiosJWT);
         toast.success("The voucher has been updated successfully.");
         onEdited();
         onClose();

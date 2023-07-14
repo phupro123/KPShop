@@ -73,6 +73,12 @@ class OrderController {
       .then(() => res.status(200).json("Updated Success"))
       .catch(next);
   }
+
+  async cancel(req, res, next) {
+    await Order.updateOne({ _id: req.params.oid }, {status:"Đã hủy"})
+      .then(() => res.status(200).json("Updated Success"))
+      .catch(next);
+  }
   //  [POSt] /Product/new
   async neworder(req, res, next) {
     const formData = req.body;
@@ -90,7 +96,7 @@ class OrderController {
 
   // [GET] /order/all
   async getAllorderById(req, res, next) {
-    Order.find({ customer_id: req.params.id })
+    Order.find({ customer_id: req.params.oid })
 
       .then((order) => {
         res.status(200).json(order);

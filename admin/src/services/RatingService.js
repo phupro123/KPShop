@@ -26,8 +26,8 @@ const updateRatingById = async (id, data) => {
   return res;
 };
 
-const deleteRatingById = async (id) => {
-  let res = await axiosInstance.delete(`/rating/delete/${id}`);
+const deleteRatingById = async (id,axiosJWT) => {
+  let res = await axiosJWT.delete(`/rating/delete/${id}`);
   return res;
 };
 
