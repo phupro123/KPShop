@@ -36,7 +36,9 @@ class ProductController {
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Product.find(queryObj)
-        .sort(sort ? Object.fromEntries([[sort.key, sort.value]]) : { title: 1 })
+        .sort(
+          sort ? Object.fromEntries([[sort.key, sort.value]]) : { title: 1 }
+        )
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
@@ -62,7 +64,6 @@ class ProductController {
 
   // [GET] /product/get/:_id
   async getProductById(req, res, next) {
-    console.log(req.params);
     await Product.findById(req.params._id)
       .then((product) => {
         res.status(200).json(product);
@@ -70,7 +71,6 @@ class ProductController {
       .catch(next);
   }
   async getProductBySlug(req, res, next) {
-    console.log(req.params.slug);
     await Product.findOne({ slug: req.params.slug })
       .then((product) => {
         res.status(200).json(product);
@@ -189,7 +189,6 @@ class ProductController {
 
   async queryProduct(req, res) {
     const data = req.query;
-    console.log(data);
     if (data?.category && data?.brand) {
       await Product.find({ category: data?.category, brand: data?.brand })
         .limit(data.limit)

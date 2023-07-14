@@ -13,8 +13,6 @@ const Filter = ({ searchGroup, headerGroups, onChangeState }) => {
         filterParams: columnFilter,
     });
 
-    console.log(searchParams.get('name'));
-
     const filterDataArray = useMemo(() => {
         if (location.pathname.slice(1) === 'search') {
             return [
