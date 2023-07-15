@@ -16,8 +16,8 @@ export const _editOrder = async (data,axiotJWT,id) => {
 };
 
 
-export const _getOrderDetail = async (dispatch, id) => {
-    let res = await axiosClient.get(`order/getorderdetail/${id}`);
+export const _getOrderDetail = async (dispatch,axiotJWT, id,uid) => {
+    let res = await axiotJWT.get(`order/get/${id}/${uid}`);
     dispatch(orderDetail(res));
 };
 export const saveOrders = async (dispatch, data) => {

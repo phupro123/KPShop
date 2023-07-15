@@ -1,10 +1,8 @@
 const jwt = require("jsonwebtoken");
-
+// Middleware check token 
 const verifyToken = (req, res, next) => {
   //ACCESS TOKEN FROM HEADER, REFRESH TOKEN FROM COOKIE
   const token = req.headers.token;
-  // console.log(token)
-  //const refreshToken = req.cookies.refreshToken;
   if (token) {
     const accessToken = token.split(" ")[1];
     jwt.verify(accessToken, "access_key", (err, user) => {
@@ -22,8 +20,6 @@ const verifyToken = (req, res, next) => {
 // Middleware Authorized user 
 const verifyTokenAndUserAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    // console.log(req.user )
-    // console.log(req.params)
     if (req.user._id === req?.params?.id || req.user.role === "0") {
       next();
     } else {

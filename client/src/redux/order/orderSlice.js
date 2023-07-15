@@ -18,10 +18,10 @@ export const orders = createSlice({
     reducers: {
         postOrder: (state, action) => {
             state.order.data = action.payload;
-            const orderData = JSON.stringify(action.payload);
-            if (!action.payload.payment.paid) {
-                localStorage.setItem('order', orderData);
-            }
+            // const orderData = JSON.stringify(action.payload);
+            // if (!action.payload.payment.paid) {
+            //     localStorage.setItem('order', orderData);
+            // }
         },
         allOrder: (state, action) => {
             state.all.data = action.payload;

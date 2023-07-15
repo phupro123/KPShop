@@ -60,7 +60,7 @@ class OrderController {
   }
   // [GET] /order/get/:id
   async getorder(req, res, next) {
-    await Order.findById(req.params.id)
+    await Order.findById(req.params.oid)
       .then((order) => {
         res.status(200).json(order);
       })

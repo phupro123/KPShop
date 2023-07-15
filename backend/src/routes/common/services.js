@@ -8,6 +8,7 @@ const {
   verifyTokenAndAdmin,
   verifyTokenAndUserAuthorization,
 } = require("../../app/controllers/common/verifyController.js");
+//TEST
 router.post("/uploadImage", (req, res) => {
     uploadImage(req.body.image)
       .then((url) => res.send(url))
@@ -15,7 +16,8 @@ router.post("/uploadImage", (req, res) => {
         console.log(err)
         res.status(500).send(err)});
   });
-  
+
+
 router.post("/uploadMultipleImages", (req, res) => {
     uploadImage
       .uploadMultipleImages(req.body.images)
