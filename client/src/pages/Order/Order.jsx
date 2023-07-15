@@ -30,7 +30,8 @@ const Order = ({}) => {
         notify();
         dispatch(clearCart());
         if(currentUser?.username){
-            await _succesOrder(data,axiosJWT,currentUser?._id)
+            await _succesOrder(data,axiosJWT,currentUser?._id
+                )
         }
         
         if (payment.name === 'momo') {

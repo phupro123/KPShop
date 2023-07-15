@@ -8,7 +8,6 @@ const baseURL = 'http://localhost:8000';
 const refreshToken = async () => {
     try {
         const res = await axiosClient.post('/auth/refresh');
-    console.log("refreshhhhhhh");
     return res;
     } catch (err) {
         console.log(err);
