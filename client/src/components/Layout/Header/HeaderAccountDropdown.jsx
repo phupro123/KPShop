@@ -1,5 +1,5 @@
 import { MdLogout, MdPerson, MdOutlineListAlt } from 'react-icons/md';
-import { _getSuccess, _logout } from '../../../redux/user/userApi';
+import { _logout } from '../../../redux/user/userApi';
 import { BsPostcardHeart } from 'react-icons/bs';
 import HeaderAccountDropdownItem from './HeaderAccountDropdownItem';
 
