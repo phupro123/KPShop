@@ -4,6 +4,9 @@ import { Input, Select } from "../../../components/Form";
 import { Modal } from "../../../components/Modal";
 import { toast } from "react-toastify";
 import { values } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/user/userSlice";
+import { createAxios } from "../../../api/createInstance";
 
 const status = [
   "Đang xử lý",
@@ -21,6 +24,10 @@ const OrderModificationModal = ({
   onEdited,
   ...props
 }) => {
+  const currentUser = useSelector((state) => state.users?.current?.data);
+  const dispatch = useDispatch();
+  let axiosJWT = createAxios(currentUser, dispatch, login);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusOptions, setStatusOptions] = useState([]);
 
@@ -30,7 +37,7 @@ const OrderModificationModal = ({
     setIsSubmitting(true);
 
     try {
-      await onEdit({ ...order, status: formData.status });
+      await onEdit(axiosJWT, { _id: formData._id, status: formData.status });
       toast.success("The status has been updated successfully.");
       onEdited();
       onClose();
@@ -50,6 +57,8 @@ const OrderModificationModal = ({
 
     reset(order);
   }, [isOpen, reset, order]);
+
+  console.log(order);
 
   useEffect(() => {
     setStatusOptions(

@@ -1,6 +1,6 @@
 import { axiosInstance } from "../api/axios.config";
 
-const getOrders = async (axiosJWT,params) => {
+const getOrders = async (axiosJWT, params) => {
   const response = await axiosJWT.get("/order/all", { params });
 
   return {
@@ -11,13 +11,15 @@ const getOrders = async (axiosJWT,params) => {
   };
 };
 
-const getOrderById = async (axiosJWT,data) => {
+const getOrderById = async (axiosJWT, data) => {
   let res = await axiosJWT.get(`order/getbyid/${data}`);
   return res;
 };
 
-const updateOrderById = async (axiosJWT,data) => {
+const updateOrderById = async (axiosJWT, data) => {
+  console.log(data);
   let res = await axiosJWT.put(`/order/edit/${data._id}`, data);
+  console.log(res);
   return res;
 };
 

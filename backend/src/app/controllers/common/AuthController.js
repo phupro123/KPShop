@@ -13,7 +13,6 @@ const authToken = "ed8d0826c472d43558e039ec76c70d53";
 const twilio = require("twilio")(accountSid, authToken);
 const MongoStore = require("connect-mongo");
 const generateAccessToken = (user) => {
- 
   return jwt.sign(
     {
       _id: user._id,
@@ -56,11 +55,8 @@ class AuthController {
         res.status(200).json(user);
       })
       .catch((error) => {
-     
-
         res.status(500).json(error);
       });
-  
   }
 
   //  [POST] /login
@@ -101,7 +97,7 @@ class AuthController {
       // Save refreshToken to Cookie
       res.cookie("refreshtoken", refreshToken, {
         httpOnly: true,
-      secure: true,
+        secure: true,
         path: "/",
         sameSite: "strict",
       });
@@ -172,7 +168,7 @@ class AuthController {
 
   async loginSuccess(req, res) {
     const user = req.user;
-    console.log(user)
+    console.log(user);
     if (user) {
       if (!user.status) {
         return res
@@ -192,7 +188,7 @@ class AuthController {
       // Save refreshToken to Cookie
       res.cookie("refreshtoken", refreshToken, {
         httpOnly: true,
-          secure: true,
+        secure: true,
         path: "/",
         sameSite: "strict",
       });
@@ -263,7 +259,7 @@ class AuthController {
         // Save refreshToken to Cookie
         res.cookie("refreshtoken", refreshToken, {
           httpOnly: true,
-              secure: true,
+          secure: true,
           path: "/",
           sameSite: "strict",
         });
@@ -291,7 +287,7 @@ class AuthController {
                 // Save refreshToken to Cookie
                 res.cookie("refreshtoken", refreshToken, {
                   httpOnly: true,
-                        secure: true,
+                  secure: true,
                   path: "/",
                   sameSite: "strict",
                 });
@@ -322,7 +318,7 @@ class AuthController {
       // Save refreshToken to Cookie
       res.cookie("refreshtoken", refreshToken, {
         httpOnly: true,
-            secure: true,
+        secure: true,
         path: "/",
         sameSite: "strict",
       });
@@ -349,7 +345,7 @@ class AuthController {
               // Save refreshToken to Cookie
               res.cookie("refreshtoken", refreshToken, {
                 httpOnly: true,
-                    secure: true,
+                secure: true,
                 path: "/",
                 sameSite: "strict",
               });
@@ -371,18 +367,15 @@ class AuthController {
       return res.status(404).json("Incorrect username");
     }
     if (user.role != "0") {
-      return res.status(404).json("Incorrect account");
+      return res.status(400).json("Incorrect account");
     }
     // Check pass
-    let validPassword =false
-    if(user.password){
-       validPassword = await bcrypt.compare(
-          req.body.password,
-          user.password
-        );
+    let validPassword = false;
+    if (user.password) {
+      validPassword = await bcrypt.compare(req.body.password, user.password);
     }
     if (!validPassword) {
-      return res.status(404).json("Incorrect password");
+      return res.status(401).json("Incorrect password");
     }
     // Return token
     if (user && validPassword) {
