@@ -4,7 +4,7 @@ import './Order.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { numberWithCommas } from '../../utils';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { postOrders } from '../../redux/order/ordersApi';
+import { postOrders, saveOrders } from '../../redux/order/ordersApi';
 import { clearCart } from '../../redux/shopping-cart/cartItemsSlide';
 import { momo } from '../../services/payment';
 import { toast } from 'react-toastify';
@@ -35,16 +35,19 @@ const Order = ({}) => {
         }
         
         if (payment.name === 'momo') {
+            const money =data.totalPrice ;
             let redirectUrl = window.location.origin + '/history';
             const dataMomo = {
                 orderId: data._id,
                 orderInfo: `${data.fullname} thanh toán đơn hàng ${data._id} với MoMo`,
                 redirectUrl: redirectUrl,
-                amount: 5000,
+                amount: money,
                 extraData: '',
             };
-            const res = await momo.createMomoPayment(dataMomo);
             localStorage.removeItem('order');
+            saveOrders(dispatch,null)
+            const res = await momo.createMomoPayment(dataMomo);
+            
 
             // const temp = {
             //     id: data._id,
@@ -57,6 +60,8 @@ const Order = ({}) => {
 
             window.location = res.payUrl;
         } else {
+            saveOrders(dispatch,null)
+            localStorage.removeItem('order');
             navigate('/history');
         }
     };
@@ -74,6 +79,9 @@ const Order = ({}) => {
 
     
     useEffect(() => {
+        if(order==null){
+            navigate('/cart')
+        }
         document.title = "Xác nhận đơn hàng - KPShop.com";
     }, []);
     return (

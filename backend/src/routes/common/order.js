@@ -22,11 +22,10 @@ router.get("/getbyid/:oid/:id",verifyTokenAndUserAuthorization, OrderController.
 
 router.get("/all",verifyTokenAndAdmin, OrderController.getAllorder);
 
-//DELETE USER
 router.delete("/delete/:id",verifyTokenAndAdmin,OrderController.deleteorder);
 
 router.get(
-  "/get/:id",
+  "/get/:oid/:id",
   verifyTokenAndUserAuthorization,
   OrderController.getorder
 );

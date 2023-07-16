@@ -8,25 +8,19 @@ const {
 } = require("../../app/controllers/common/verifyController.js");
 
 
-//ALL USERS
 router.get("/all", verifyTokenAndAdmin, userController.getAllUser);
 
-//DELETE USER
 router.delete("/delete/:id", verifyTokenAndAdmin,userController.deleteUser);
 
-//GET 1 USER
 router.get("/get/:id", verifyTokenAndAdmin, userController.getUser);
 
-//EDIT 1 USER
 router.put("/edit/:id",verifyTokenAndUserAuthorization,userController.update);
 
-// NEW USER
 router.post("/new",verifyTokenAndAdmin, userController.newUser);
-//GET 1 PASS USER
+
 router.put("/editPass/:id",verifyTokenAndUserAuthorization, userController.updatePass);
 
 router.post("/getWishList/:id",verifyTokenAndUserAuthorization, userController.getWishList);
-
 
 router.post("/addToWishList/:id",verifyTokenAndUserAuthorization, userController.addToWishlist);
 

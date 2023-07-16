@@ -57,7 +57,7 @@ const User = new Schema(
     },
     status: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     // 0 ban
     // 1 active

@@ -17,7 +17,7 @@ function ItemOrder({ data }) {
                     </tr>
                 </thead>
                 <tbody className="text-center">
-                    {data.order_items.map((item, index) => {
+                    {data?.order_items?.map((item, index) => {
                         sum += item.price * (1 - item.discount) * item.quantity;
                         return (
                             <tr key={index} className="border-b">
