@@ -66,5 +66,7 @@ app.use(cookieParser());
 route(app);
 
 app.listen(8000, () => {
-  console.log(`App listening on port 8000`);
+  // console.log(`App listening on port 8000`);
 });
+
+module.exports = app

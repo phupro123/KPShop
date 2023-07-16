@@ -12,7 +12,7 @@ async function connect() {
         useUnifiedTopology: true,
       }
     );
-    console.log("Ok Connected to mongose");
+    // console.log("Ok Connected to mongose");
   } catch (error) {
     console.log(error);
   }

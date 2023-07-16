@@ -1,7 +1,7 @@
 import FooterLinkItem from './FooterLinkItem';
 import FooterSocialItems from './FooterSocialItems';
 import { Avatar } from '../../Avatar';
-import logo from '../../../assets/logo.png';
+import logo2 from '../../../assets/logo2.png';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className="relative z-10 flex space-x-10">
                     <div className="flex flex-col justify-start mt-5 space-y-4 w-1/3">
                         <Link to="/" className="mx-auto">
-                            <Avatar src={logo} alt="logo" className="w-40 h-fit border-none rounded-none mx-0" />
+                            <Avatar src={logo2} alt="logo" className="w-40 h-fit border-none rounded-none mx-0" />
                         </Link>
                         <div>
                             Hệ thống bán lẻ điện thoại di động, smartphone, máy tính bảng, tablet, laptop, chính hãng

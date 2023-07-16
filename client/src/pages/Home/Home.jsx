@@ -3,8 +3,12 @@ import PromoFirst from './PromoFirst';
 import PromoSecond from './PromoSecond';
 import PromoThird from './PromoThird';
 import { ProductHistory } from '../../components/DisplayProduct';
+import { useEffect } from 'react';
 
 const Home = ({ title }) => {
+    useEffect(() => {
+        document.title = title;
+    }, []);
     return (
         <div>
             <div className="w-[1200px] mx-auto flex flex-col space-y-6 py-6">

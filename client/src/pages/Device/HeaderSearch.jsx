@@ -42,7 +42,7 @@ const HeaderSearch = ({ field, groupKey, onChangeFilter }) => {
     }, [onChangeFilter, searchField, searchValue, groupKey]);
 
     return (
-        <div className="group relative z-20  mb-4 mr-4 flex flex-shrink-0 items-center rounded-lg border-2 border-gray-100 bg-gray-50 focus-within:border-gray-200 focus-within:bg-gray-100 hover:border-gray-200 hover:bg-gray-100">
+        <div className="group relative z-10  mb-4 mr-4 flex flex-shrink-0 items-center rounded-lg border-2 border-gray-100 bg-gray-50 focus-within:border-gray-200 focus-within:bg-gray-100 hover:border-gray-200 hover:bg-gray-100">
             <Input
                 name="tableGlobalFilter"
                 className="z-0 h-[38px] w-full border-0 bg-transparent duration-100 hover:bg-gray-100"
