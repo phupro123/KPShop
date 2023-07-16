@@ -1,55 +1,58 @@
-import { BsFacebook, BsYoutube } from 'react-icons/bs';
+import FooterLinkItem from './FooterLinkItem';
+import FooterSocialItems from './FooterSocialItems';
+import { Avatar } from '../../Avatar';
+import logo from '../../../assets/logo.png';
+import { Link } from 'react-router-dom';
 
-function Footer() {
+const Footer = () => {
     return (
-        <footer className="flex flex-col text-[#333333] bg-white border-t border-solid border-[#e2e2e2]">
-            <div id="recaptcha-container"></div>
-            <div className="flex items-start justify-between w-[1200px] text-[14px] mx-auto">
-                <ul>
-                    <li>Tích điểm Quà tặng VIP</li>
-                    <li>Lịch sử mua hàng</li>
-                    <li>Cộng tác bán hàng cùng KPShop</li>
-                    <li>Tìm hiểu về mua trả góp</li>
-                    <li>Chính sách bảo hành</li>
-                    <li>Xem thêm</li>
-                </ul>
-                <ul>
-                    <li>Giới thiệu công ty </li>
-                    <li>Tuyển dụng</li>
-                    <li>Gửi góp ý, khiếu nại</li>
-                    <li>Tìm siêu thị (3.203 shop)</li>
-                    <li>Xem bản mobile</li>
-                </ul>
-                <ul>
-                    <li>Tổng đài hỗ trợ (Miễn phí gọi)</li>
-                    <li>Gọi mua: 1800.1060 (7:30 - 22:00)</li>
-                    <li>Kỹ thuật: 1800.1763 (7:30 - 22:00)</li>
-                    <li>Khiếu nại: 1800.1062 (8:00 - 21:30)</li>
-                    <li>Bảo hành: 1800.1064 (8:00 - 21:00)</li>
-                </ul>
-                <div className="w-[234px]">
-                    <div className="flex items-center space-x-2">
-                        <BsFacebook />
-                        <span>846k Đăng ký</span>
-                        <BsYoutube />
-                        <span>846k Đăng ký</span>
+        <div className="relative z-10 overflow-hidde border-t-2 border-gray-100 bg-white py-2" id="footer">
+            <div className="w-[1200px] mx-auto">
+                <div className="relative z-10 flex space-x-10">
+                    <div className="flex flex-col justify-start mt-5 space-y-4 w-1/3">
+                        <Link to="/" className="mx-auto">
+                            <Avatar src={logo} alt="logo" className="w-40 h-fit border-none rounded-none mx-0" />
+                        </Link>
+                        <div>
+                            Hệ thống bán lẻ điện thoại di động, smartphone, máy tính bảng, tablet, laptop, chính hãng
+                            mới, giá tốt.
+                        </div>
                     </div>
-                    <img className="h-[24px]" src="/images/ct.png" />
-                    <p>Website cùng tập đoàn</p>
-                    <img className="h-[24px]" src="/images/vl.png" />
+                    <div className="relative z-10 grid grid-cols-1 xs:grid-cols-2 mt-3 md:col-span-2 md:grid-cols-3 w-2/3">
+                        <div className="flex flex-col">
+                            <div className="mb-3 font-bold">Công ty</div>
+                            <div className="flex flex-col ">
+                                <FooterLinkItem to="/about">Về chúng tôi</FooterLinkItem>
+                                <FooterLinkItem to="/blog">Blog</FooterLinkItem>
+                                <FooterLinkItem to="/partner">Đối tác</FooterLinkItem>
+                                <FooterLinkItem to="/contact">Liên hệ</FooterLinkItem>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="mb-3 font-bold">Hỗ trợ</div>
+                            <div className="flex flex-col ">
+                                <FooterLinkItem to="/guides">Hướng dẫn</FooterLinkItem>
+                                <FooterLinkItem to="/complaint">Góp ý khiếu nại</FooterLinkItem>
+                                <FooterLinkItem to="/support">Tổng đài hỗ trợ</FooterLinkItem>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="mb-3 font-bold">Chính sách</div>
+                            <div className="flex flex-col ">
+                                <FooterLinkItem to="/recruitment">Tuyển dụng</FooterLinkItem>
+                                <FooterLinkItem to="/purchase">Mua trả góp</FooterLinkItem>
+                                <FooterLinkItem to="/exchange">Chính sách đổi trả</FooterLinkItem>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="relative z-10 mt-2 items-center justify-between border-t-2 border-gray-100 py-4 md:flex">
+                    <div className="text-center md:text-left">&copy; Reserved</div>
+                    <FooterSocialItems className="mt-4 flex justify-center md:mt-0 md:justify-start" />
                 </div>
             </div>
-            <div className="bg-white h-[66px]">
-                <p className="m-auto w-[1200px] text-[12px]">
-                    © 2021. Công ty cổ phần KPShop. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày 02/01/2007. GPMXH:
-                    238/GP-BTTTT do Bộ Thông Tin và Truyền Thông cấp ngày 04/06/2021. Địa chỉ: 128 Trần Quang Khải, P.
-                    Tân Định, Q.1, TP.Hồ Chí Minh. Điện thoại: 028 38125960. Email:
-                    <a className="text-blue-700"> cskh@kpshop.com</a>. Chịu trách nhiệm nội dung: Huỳnh Văn Tốt. Xem
-                    chính sách sử dụng
-                </p>
-            </div>
-        </footer>
+        </div>
     );
-}
+};
 
 export default Footer;
