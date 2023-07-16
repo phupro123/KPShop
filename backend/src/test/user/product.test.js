@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../../app"); // Đây là file chứa Express app của bạn
+const app = require("../../index"); // Đây là file chứa Express app của bạn
 
 describe("POST Login", () => {
   let accessToken;
