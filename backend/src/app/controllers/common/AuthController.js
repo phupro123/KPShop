@@ -20,7 +20,7 @@ const generateAccessToken = (user) => {
       role: user.role,
     },
     "access_key",
-    { expiresIn: "10 800s" }
+    { expiresIn: "3h" }
   );
 };
 
