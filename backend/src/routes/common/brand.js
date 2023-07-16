@@ -3,17 +3,16 @@ var router = express.Router();
 
 const brandController = require("../../app/controllers/common/BrandController.js");
 const {
-    verifyTokenAndAdmin,
-    verifyTokenAndUserAuthorization,
-  } = require("../../app/controllers/common/verifyController.js");
+  verifyTokenAndAdmin,
+} = require("../../app/controllers/common/verifyController.js");
 
 router.get("/all", brandController.getAllBrand);
 
-router.put("/edit/:id", verifyTokenAndAdmin,brandController.update);
+router.put("/edit/:id", verifyTokenAndAdmin, brandController.update);
 
-router.post("/new",verifyTokenAndAdmin, brandController.newBrand);
+router.post("/new", verifyTokenAndAdmin, brandController.newBrand);
 
-router.delete("/delete/:id", verifyTokenAndAdmin,brandController.deleteBrand);
+router.delete("/delete/:id", verifyTokenAndAdmin, brandController.deleteBrand);
 
 router.get("/get/:id", brandController.getBrand);
 

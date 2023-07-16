@@ -1,5 +1,6 @@
 import { login, logout } from "../redux/user/userSlice";
 import { axiosInstance } from "../api/axios.config";
+import { pick } from "lodash";
 
 const getUsers = async (axiotJWT, params) => {
   const response = await axiotJWT.get("/user/all", { params });
@@ -23,7 +24,10 @@ const createUser = async (data, axiotJWT) => {
 };
 
 const updateUserById = async (id, data, axiotJWT) => {
-  let res = await axiotJWT.put(`/user/edit/${id}`, data);
+  let res = await axiotJWT.put(
+    `/user/edit/${id}`,
+    pick(data, ["fullname", "image", "phone", "status"])
+  );
   return res;
 };
 
@@ -65,7 +69,7 @@ const _login = async (data, dispatch, navigate) => {
 };
 
 const _checkRequest = async (dispatch) => {
-  await axiosInstance.post('/auth/logout');
+  await axiosInstance.post("/auth/logout");
   new Promise(() => {
     setTimeout(() => {
       dispatch(logout());
@@ -75,7 +79,7 @@ const _checkRequest = async (dispatch) => {
 };
 
 const _logout = async (dispatch, navigate) => {
-  await axiosInstance.post('/auth/logout');
+  await axiosInstance.post("/auth/logout");
   new Promise(() => {
     setTimeout(() => {
       dispatch(logout());

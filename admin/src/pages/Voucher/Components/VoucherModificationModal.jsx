@@ -48,10 +48,13 @@ const VoucherModificationModal = ({
   const handleCreateVoucher = useCallback(
     async (formData) => {
       try {
-        await onCreate({
-          ...formData,
-          sale: (Number(formData.sale) / 100).toFixed(2),
-        },axiosJWT);
+        await onCreate(
+          {
+            ...formData,
+            sale: (Number(formData.sale) / 100).toFixed(2),
+          },
+          axiosJWT
+        );
         toast.success("The voucher has been updated successfully.");
         onCreated();
         onClose();
@@ -68,10 +71,14 @@ const VoucherModificationModal = ({
     async (formData) => {
       if (!voucher) return;
       try {
-        await onEdit(voucher._id, {
-          ...formData,
-          sale: (Number(formData.sale) / 100).toFixed(2),
-        },axiosJWT);
+        await onEdit(
+          voucher._id,
+          {
+            ...formData,
+            sale: (Number(formData.sale) / 100).toFixed(2),
+          },
+          axiosJWT
+        );
         toast.success("The voucher has been updated successfully.");
         onEdited();
         onClose();

@@ -62,7 +62,6 @@ class UserController {
   }
   //[PUT]  /user/edit/:id
   async update(req, res, next) {
-    console.log("'''''''''''''''''", req.user);
     await User.updateOne({ _id: req.params.id }, req.body)
       .then(() => {
         User.findById(req.params.id).then((user) => {
@@ -300,7 +299,7 @@ class UserController {
     res.status(200).json({ ...others, token });
   }
   async checkPassword(req, res, next) {
-    console.log(req.body)
+    console.log(req.body);
     const user = await User.findOne({ username: req.body.username });
 
     // Check account
@@ -309,7 +308,6 @@ class UserController {
     }
     return res.status(200).json("Không");
   }
-  
 }
 
 module.exports = new UserController();
