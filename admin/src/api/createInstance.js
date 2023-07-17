@@ -42,7 +42,6 @@ export const createAxios = (user, dispatch, stateSuccess) => {
       const decodedToken = jwt_decode(accessToken);
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken();
-        
         if(data==undefined){
           _checkRequest(dispatch)
         }

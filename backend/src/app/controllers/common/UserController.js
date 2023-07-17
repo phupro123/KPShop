@@ -2,6 +2,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const { promise } = require("bcrypt/promises");
 const jwt = require("jsonwebtoken");
+const Blacklist = require("../../models/Blacklist");
 
 class UserController {
   // [GET] /user/all
@@ -62,6 +63,17 @@ class UserController {
   }
   //[PUT]  /user/edit/:id
   async update(req, res, next) {
+    // console.log(req.body.status)
+    if(req.body.status === false){
+      const bl = new Blacklist({uid:req.params.id });
+      bl.save()
+    }
+    else if(req.body.status === true){
+      Blacklist.deleteOne({uid:req.params.id })
+      .then(result=>{
+        console.log(result);
+      });;
+    }
     await User.updateOne({ _id: req.params.id }, req.body)
       .then(() => {
         User.findById(req.params.id).then((user) => {

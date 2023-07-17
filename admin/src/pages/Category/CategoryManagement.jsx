@@ -63,6 +63,10 @@ const CategoryManagement = () => {
     }
 
     try {
+      if(selectedCategory?._id<4){
+        toast.info("This category can't delete right now.");
+        return;
+      }
       await CategoryService.deleteCategoryById(selectedCategory?._id,axiosJWT);
 
       toast.success("The category has been deleted successfully.");

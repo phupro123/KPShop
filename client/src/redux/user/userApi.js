@@ -84,11 +84,17 @@ export const _logoutTest = async (dispatch, ) => {
       
     } catch (err) {}
 };
-export const _editUser = async (dispatch, data, id,axiotJWT) => {
+export const _editUser = async (dispatch, data, id,axiotJWT,navigate) => {
     try {
         const res = await axiotJWT.put(`/user/edit/${id}`, data);
+        toast.success('Cập nhật thông tin thành công!');
         dispatch(login(res));
-    } catch (err) {}
+    } catch (err) {
+        if(err.response){
+            toast.info('Bạn không được phép cấp quyền bởi KPShop, vui lòng liên hệ quản trị để được tư vấn hỗ trợ');
+            _logout(dispatch,navigate)
+        }
+    }
 };
 
 export const _getWishList= async ( data,dispatch,axiotJWT) => {

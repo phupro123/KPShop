@@ -7,6 +7,7 @@ import { UploadInput } from '../../../../components/Form';
 import { toast } from 'react-toastify';
 import { createAxios } from "../../../../api/createInstance";
 import { login } from "../../../../redux/user/userSlice";
+import { useNavigate } from 'react-router-dom';
 const ChangeAvatarModal = ({ currentUser, isOpen, onClose, ...props }) => {
   
     const dispatch = useDispatch();
@@ -15,12 +16,12 @@ const ChangeAvatarModal = ({ currentUser, isOpen, onClose, ...props }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { control, reset, handleSubmit: useFormSubmit } = useForm();
-
+    const navigate= useNavigate()
     const handleSubmit = useFormSubmit(async (formData) => {
         setIsSubmitting(true);
         try {
-            await _editUser(dispatch, formData, currentUser?._id,axiosJWT);
-            toast.success('Cập nhật ảnh đại diện thành công!');
+            await _editUser(dispatch, formData, currentUser?._id,axiosJWT,navigate);
+            // toast.success('Cập nhật ảnh đại diện thành công!');
         } catch {
             toast.error('Đã có lỗi xảy ra trong quá trình cập nhật');
         } finally {

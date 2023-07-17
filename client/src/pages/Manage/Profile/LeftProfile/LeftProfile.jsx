@@ -12,6 +12,7 @@ import ChangeAvatarModal from './ChangeProfileModal';
 import { BsCameraFill } from 'react-icons/bs';
 import { login } from '../../../../redux/user/userSlice';
 import { createAxios } from '../../../../api/createInstance';
+import { useNavigate } from 'react-router-dom';
 
 function LeftProfile(props) {
     let { currentUser } = props;
@@ -38,12 +39,13 @@ function LeftProfile(props) {
 
     const dispatch = useDispatch();
     let axiosJWT = createAxios(currentUser, dispatch, login);
+    const navigate = useNavigate()
     const handleSubmit = useFormSubmit((formData) => {
         setIsSubmitting(true);
 
-        _editUser(dispatch, formData, currentUser?._id,axiosJWT)
+        _editUser(dispatch, formData, currentUser?._id,axiosJWT,navigate)
             .then(() => {
-                toast.success('Cập nhật thông tin thành công!');
+                
             })
             .catch(() => {
                 toast.success('Đã có lỗi xảy ra trong quá trình cập nhật');

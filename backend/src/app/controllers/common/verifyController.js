@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Blacklist = require("../../models/Blacklist");
 // Middleware check token 
 const verifyToken = (req, res, next) => {
   //ACCESS TOKEN FROM HEADER, REFRESH TOKEN FROM COOKIE
@@ -18,10 +19,20 @@ const verifyToken = (req, res, next) => {
 };
 
 // Middleware Authorized user 
-const verifyTokenAndUserAuthorization = (req, res, next) => {
+const  verifyTokenAndUserAuthorization =   (req, res, next) => {
   verifyToken(req, res, () => {
+    
     if (req.user._id === req?.params?.id || req.user.role === "0") {
-      next();
+       Blacklist.findOne({uid:req.user._id}).then(result=>{
+        if(result?.uid){
+          
+          return res.status(403).json("You're baned!");
+        }
+        else {
+          next();
+        }
+      });
+     
     } else {
       return res.status(403).json("You're not allowed to do that!");
     }

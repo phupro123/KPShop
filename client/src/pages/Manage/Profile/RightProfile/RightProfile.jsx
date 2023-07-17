@@ -43,18 +43,15 @@ function RightProfile() {
         const data ={
             fbId:""
         }
-       await _editUser (dispatch,data,currentUser._id,axiosJWT)
-                .then(() => {
-                 toast.success('Cập nhật thông tin thành công!');
-    })}
+       await _editUser (dispatch,data,currentUser._id,axiosJWT,navigate)
+                
+    }
     const handleCancelGoogle = async()=>{
         const data ={
             googleId:""
         }
-       await _editUser (dispatch,data,currentUser._id,axiosJWT)
-                .then(() => {
-                 toast.success('Cập nhật thông tin thành công!');
-    })
+       await _editUser (dispatch,data,currentUser._id,axiosJWT,navigate)
+             
     }
     useEffect(()=>{
         _getWishList(currentUser,dispatch,axiosJWT);

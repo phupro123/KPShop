@@ -63,6 +63,11 @@ const BrandManagement = () => {
     }
 
     try {
+      if(selectedBrand?._id<16)
+      {
+        toast.info("The brand can't delete right now.");
+        return;
+      }
       await BrandService.deleteBrandById(selectedBrand?._id,axiosJWT);
 
       toast.success("The brand has been deleted successfully.");

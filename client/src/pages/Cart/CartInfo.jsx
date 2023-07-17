@@ -178,6 +178,8 @@ const CartInfo = () => {
         try {
             const response = await checkVoucher({
                 name: voucher,
+                uid:user.userId,
+                price:totalPrice
             });
             setDiscount(totalPrice * response.sale);
             toast.success('Mã giảm giá đã được áp dụng thành công');

@@ -1,3 +1,4 @@
+const StoreVoucher = require("../../models/StoreVoucher");
 const Voucher = require("../../models/Voucher");
 
 class VoucherController {
@@ -105,11 +106,21 @@ class VoucherController {
         if (voucher.quantity < 1) {
           res.status(404).json({ error: "Mã hết lượt sử dụng" });
         }
+        else if( req.body.price< voucher.condition){
+          res.status(405).json({error:`Mã cần phải từ ${voucher.condition} trở lên`})
+        } 
         let today = new Date();
         let expiredDate = new Date(voucher.expiredDate);
+        await StoreVoucher.find({voucherId:voucher._id,uid:req.body.uid}).then((e)=>{
+            if(e.length > voucher.redeemUse){
+              res.status(404).json({ error: "Bạn đã sử dùng mã này rồi !!!" });
+            }
+        })
         if (expiredDate < today) {
           res.status(404).json({ error: "Mã hết hạn sử dụng" });
         } else {
+           const useVoucher = new StoreVoucher({voucherId:voucher._id,uid:req.body.uid})
+           useVoucher.save()
           res.status(200).json(voucher);
         }
       } else {
