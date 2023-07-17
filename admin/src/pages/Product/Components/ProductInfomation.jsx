@@ -14,8 +14,6 @@ const ProductInformation = ({ product, onClose, onNextStep }) => {
 
   const { control, watch } = useFormContext();
 
-  console.log(control);
-
   const category = watch("category");
 
   const fetchCategoryData = useCallback(async () => {

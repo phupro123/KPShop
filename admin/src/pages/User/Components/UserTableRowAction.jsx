@@ -10,7 +10,6 @@ const UserTableRowAction = ({
   onClickDelete,
   onClickBlock,
 }) => {
-  console.log(user?.status);
   return (
     <div className="flex items-center justify-end space-x-2">
       <TableRowAction

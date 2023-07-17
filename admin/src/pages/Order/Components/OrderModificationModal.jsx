@@ -58,8 +58,6 @@ const OrderModificationModal = ({
     reset(order);
   }, [isOpen, reset, order]);
 
-  console.log(order);
-
   useEffect(() => {
     setStatusOptions(
       values(status).map((group) => ({
