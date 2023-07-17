@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import axiosClient from '../../api/axios.config';
 import { login, logout } from './userSlice';
 export const setAccessToken = (accessToken) => {
@@ -29,15 +30,25 @@ export const _loginPass = async (data, dispatch, navigate) => {
 
 export const _getSuccess = async (dispatch, navigate,user) => {
     if(user==null){
-        const res = await axiosClient.get(
-            '/auth/login/success',
-            { withCredentials: true },
-            {
-                headers: { 'Access-Control-Allow-Credentials': true },
-            },
-        );
-        dispatch(login(res));
-        setAccessToken(res.accessToken);
+        try{
+            const res = await axiosClient.get(
+                '/auth/login/success',
+                { withCredentials: true },
+                {
+                    headers: { 'Access-Control-Allow-Credentials': true },
+                },
+            );
+            dispatch(login(res));
+            setAccessToken(res.accessToken);
+        }
+        catch(e){
+            if (e.response.data === 'Bạn không được phép cấp quyền bởi KPShop, vui lòng liên hệ quản trị để được tư vấn hỗ trợ') {
+                toast.info('Bạn không được phép cấp quyền bởi KPShop, vui lòng liên hệ quản trị để được tư vấn hỗ trợ');
+            } 
+            return e;
+        }
+       
+      
     }
 };
 

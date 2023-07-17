@@ -8,12 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderCart from './HeaderCart';
 import logo from '../../../assets/logo.png';
 import { Avatar } from '../../Avatar';
+import { toast } from 'react-toastify';
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = useSelector((state) => state.user?.currentUser);
     useEffect(() => {
-        _getSuccess(dispatch, navigate,currentUser);
+        
+         _getSuccess(dispatch, navigate,currentUser)
+            
+            
+        
     }, []);
     return (
         <div className="flex justify-center h-24 bg-[#1a94ff] text-base">

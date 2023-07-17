@@ -24,8 +24,13 @@ const Order = ({}) => {
             toast.info("Vui lòng chọn hình thức thanh toán");
             return
         }
+        
         const data = { ...order, payment };
-
+        console.log(data)
+        if (payment.name === 'momo') {
+            data.status= "Chờ thanh toán"
+        }
+        console.log(data)
         postOrders(dispatch, data,axiosJWT,currentUser._id);
         notify();
         dispatch(clearCart());

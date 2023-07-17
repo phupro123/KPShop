@@ -23,7 +23,7 @@ const Footer = () => {
                             <div className="mb-3 font-bold">Công ty</div>
                             <div className="flex flex-col ">
                                 <FooterLinkItem to="/about">Về chúng tôi</FooterLinkItem>
-                                <FooterLinkItem to="/blog">Blog</FooterLinkItem>
+                                {/* <FooterLinkItem to="/blog">Blog</FooterLinkItem> */}
                                 <FooterLinkItem to="/partner">Đối tác</FooterLinkItem>
                                 <FooterLinkItem to="/contact">Liên hệ</FooterLinkItem>
                             </div>

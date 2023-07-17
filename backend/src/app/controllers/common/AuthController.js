@@ -168,11 +168,10 @@ class AuthController {
 
   async loginSuccess(req, res) {
     const user = req.user;
-    console.log(user);
     if (user) {
       if (!user.status) {
         return res
-          .status(400)
+          .status(401)
           .json(
             "Bạn không được phép cấp quyền bởi KPShop, vui lòng liên hệ quản trị để được tư vấn hỗ trợ"
           );
