@@ -17,9 +17,7 @@ const getOrderById = async (axiosJWT, data) => {
 };
 
 const updateOrderById = async (axiosJWT, data) => {
-  console.log(data);
   let res = await axiosJWT.put(`/order/edit/${data._id}`, data);
-  console.log(res);
   return res;
 };
 

@@ -7,7 +7,7 @@ class BrandController {
     const pageIndex = parseInt(req.query.pageIndex);
     const pageSize = parseInt(req.query.pageSize);
     const skipIndex = (pageIndex - 1) * pageSize;
-    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+    const sort = req.query.sort && JSON.parse(req.query.sort);
 
     const name = req.query.name || "";
 

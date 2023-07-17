@@ -28,15 +28,4 @@ const uploadImage = async (imageFile) => {
   return { url };
 };
 
-// function uploadMultipleImages(images) {
-
-//   axios
-//     .post("http://localhost:5000/uploadMultipleImages", { images })
-//     .then((res) => {
-//       setUrl(res.data);
-//       alert("Image uploaded Succesfully");
-//     })
-//     .then(() => setLoading(false))
-//     .catch(console.log);
-// }
 export { uploadImage };

@@ -11,7 +11,7 @@ class ProductController {
     const price = req.query.price?.split("-");
     const star = req.query.star;
     const title = req.query.title || "";
-    const sort = req.query.sort && JSON.parse(req.query.sort);
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
 
     const queryObj = {
       ...req.query,
@@ -36,9 +36,7 @@ class ProductController {
     excludedFields.forEach((el) => delete queryObj[el]);
     try {
       const data = await Product.find(queryObj)
-        .sort(
-          sort ? Object.fromEntries([[sort.key, sort.value]]) : { title: 1 }
-        )
+        .sort(sort)
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
