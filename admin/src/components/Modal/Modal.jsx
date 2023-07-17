@@ -16,6 +16,8 @@ const Modal = (
     title,
     children,
     className,
+    cancelButtonText,
+    confirmButtonText,
     contentContainerClassName,
     onClose,
     onConfirm,
@@ -92,6 +94,8 @@ const Modal = (
                         isAllowSubmit={isAllowSubmit}
                         isLoading={isLoading}
                         title={title}
+                        cancelButtonText={cancelButtonText}
+                        confirmButtonText={confirmButtonText}
                         className={className}
                         contentContainerClassName={contentContainerClassName}
                         onClose={onClose}
@@ -108,6 +112,8 @@ const Modal = (
                         isAllowSubmit={isAllowSubmit}
                         isLoading={isLoading}
                         title={title}
+                        cancelButtonText={cancelButtonText}
+                        confirmButtonText={confirmButtonText}
                         className={className}
                         contentContainerClassName={contentContainerClassName}
                         onClose={onClose}

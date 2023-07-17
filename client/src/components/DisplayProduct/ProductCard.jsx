@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
 import numberWithCommas from '../../utils/numberWithCommas';
 import { twMerge } from 'tailwind-merge';
-import { isEmpty, lowerCase } from 'lodash';
+import { lowerCase } from 'lodash';
+import { productHistory } from '../../helpers/localStorage';
 
 const ProductCard = ({ data, isBorder = false }) => {
     const handleProductClick = () => {
@@ -10,6 +11,7 @@ const ProductCard = ({ data, isBorder = false }) => {
             top: 0,
             behavior: 'smooth',
         });
+        productHistory.saveItems(data);
     };
 
     return (
@@ -49,22 +51,9 @@ const ProductCard = ({ data, isBorder = false }) => {
                     </p>
                 )}
                 <span className="font-semibold text-base">{data.title}</span>
-                {!isEmpty(data.parameter?.RAM) && (
-                    <div>
-                        {data.parameter?.RAM?.map((item, index) => (
-                            <span
-                                key={index}
-                                className={twMerge(
-                                    'text-[#2f80ed] border border-solid border-[#2f80ed] rounded-md text-xs p-1 mr-2',
-                                )}
-                                onClick={(e) => {
-                                    handleClickDisable(e);
-                                    setChecked(index);
-                                }}
-                            >
-                                RAM {item}
-                            </span>
-                        ))}
+                {data.parameter?.RAM && (
+                    <div className="text-[#2f80ed] border border-solid border-[#2f80ed] rounded-md text-xs p-1 mr-2 w-fit">
+                        RAM {data.parameter?.RAM}
                     </div>
                 )}
                 {!!Number(data?.discount) && (

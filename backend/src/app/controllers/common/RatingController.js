@@ -9,7 +9,9 @@ class RatingController {
 
     const fromDate = req.query.fromDate;
     const toDate = req.query.toDate;
-    const sort = req.query.sort && JSON.parse(req.query.sort);
+    const sort = req.query.sort
+      ? JSON.parse(req.query.sort)
+      : { updatedAt: -1 };
 
     const queryObj = {
       ...req.query,

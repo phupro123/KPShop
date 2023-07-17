@@ -1,5 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import { LoadingSkeleton } from '../../../components/Loading';
+import ParameterTranslate from './ParameterTranslate';
 const Parameter = ({ isLoading, phoneData }) => {
     return (
         <div className="my-8 text-base">
@@ -50,7 +51,7 @@ const Parameter = ({ isLoading, phoneData }) => {
                                         return (
                                             <tr className={twMerge(index % 2 === 0 && 'bg-gray-100')} key={index}>
                                                 <td colSpan="4" className="p-4">
-                                                    {param[0]}
+                                                    <ParameterTranslate data={param[0]} />
                                                 </td>
                                                 <td colSpan="6" className="p-4">
                                                     {param[1]}

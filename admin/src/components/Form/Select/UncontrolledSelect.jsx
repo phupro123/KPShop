@@ -8,7 +8,7 @@ const UncontrolledSelect = ({
   placeholder,
   classNameError,
   isDisabled = false,
-  isRequired = true,
+  isRequired = false,
   isMulti,
   value,
   options,
@@ -33,12 +33,17 @@ const UncontrolledSelect = ({
 
     return options?.find((option) => {
       if (option && typeof option === "object" && "value" in option) {
+        console.log(option.value);
+        console.log(value);
         return option.value === value;
       }
 
       return option === value;
     });
   }, [isMulti, options, value]);
+
+  console.log({ options });
+  console.log({ selectedOptions });
 
   const customStyles = {
     control: (base) => ({

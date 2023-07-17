@@ -200,6 +200,10 @@ export const specialFeatureEnum = {
         key: 'Hỗ trợ 5G',
         value: 'Hỗ trợ 5G',
     },
+    5: {
+        key: 'Có đèn bàn phím',
+        value: 'Có đèn bàn phím',
+    },
 };
 
 export const featureCameraEnum = {
