@@ -53,6 +53,7 @@ class ProductController {
   // [delete] /product/delete/:id
   async deleteProduct(req, res) {
     try {
+      await Raintg.deleteMany({product_id:req.params.id});
       await Product.findByIdAndDelete(req.params.id);
       res.status(200).json("Product deleted");
     } catch (err) {
@@ -77,12 +78,12 @@ class ProductController {
   }
   //[PUT]  /product/edit/:id
   async update(req, res, next) {
-    await Product.updateOne({ _id: req.params.pid }, req.body)
+    await Product.updateOne({ _id: req.params.id }, req.body)
       .then(() => res.status(200).json("Updated Success"))
       .catch(next);
   }
   async updateRating(req, res, next) {
-    await Product.updateOne({ _id: req.params.id }, req.body)
+    await Product.updateOne({ _id: req.params.pid }, req.body)
       .then(() => res.status(200).json("Updated Success"))
       .catch(next);
   }
