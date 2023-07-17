@@ -184,7 +184,7 @@ const CartInfo = () => {
             setDiscount(totalPrice * response.sale);
             toast.success('Mã giảm giá đã được áp dụng thành công');
         } catch (error) {
-            toast.error(error.response.data.error);
+            toast.error(error?.response?.data?.error);
             setValue('voucher', '');
         }
     }, [voucher, setValue, totalPrice, toast]);
