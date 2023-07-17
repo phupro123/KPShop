@@ -77,11 +77,15 @@ class ProductController {
   }
   //[PUT]  /product/edit/:id
   async update(req, res, next) {
+    await Product.updateOne({ _id: req.params.pid }, req.body)
+      .then(() => res.status(200).json("Updated Success"))
+      .catch(next);
+  }
+  async updateRating(req, res, next) {
     await Product.updateOne({ _id: req.params.id }, req.body)
       .then(() => res.status(200).json("Updated Success"))
       .catch(next);
   }
-
   //  [POSt] /Product/new
   async newProduct(req, res, next) {
     try {

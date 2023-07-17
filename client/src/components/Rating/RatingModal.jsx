@@ -48,6 +48,8 @@ const RatingModal = ({ phoneData, ratingProduct, handleCloseModal, fetchRatingPr
                 phoneData._id,
                 (totalStar + indexStar) / (ratingProduct.length + 1),
                 ratingProduct.length + 1,
+                currentUser._id,
+                axiosJWT
             );
             toast.success('Thêm bình luận thành công');
         } catch {

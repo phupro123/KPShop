@@ -112,17 +112,19 @@ class VoucherController {
         let today = new Date();
         let expiredDate = new Date(voucher.expiredDate);
         await StoreVoucher.find({voucherId:voucher._id,uid:req.body.uid}).then((e)=>{
-            if(e.length > voucher.redeemUse){
+            console.log(e)
+            if(e.length > voucher.redeemUse-1){
               res.status(404).json({ error: "Bạn đã sử dùng mã này rồi !!!" });
             }
+            else if (expiredDate < today) {
+              res.status(404).json({ error: "Mã hết hạn sử dụng" });
+            } else {
+               const useVoucher = new StoreVoucher({voucherId:voucher._id,uid:req.body.uid})
+               useVoucher.save()
+              res.status(200).json(voucher);
+            }
         })
-        if (expiredDate < today) {
-          res.status(404).json({ error: "Mã hết hạn sử dụng" });
-        } else {
-           const useVoucher = new StoreVoucher({voucherId:voucher._id,uid:req.body.uid})
-           useVoucher.save()
-          res.status(200).json(voucher);
-        }
+        
       } else {
         res.status(404).json({ error: "Mã không đúng vui lòng kiểm tra lại" });
       }

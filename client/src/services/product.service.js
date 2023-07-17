@@ -16,8 +16,8 @@ export const getProductBySlug = async (slug) => {
     return response;
 };
 
-export const updateRatingProductById = async (id, star, totalVote) => {
-    let res = await axiosClient.put(`/product/edit/${id}`, {
+export const updateRatingProductById = async (id, star, totalVote,uid,axiosJWT) => {
+    let res = await axiosJWT.put(`/product/edit/${id}/${uid}`, {
         star,
         totalVote,
     });

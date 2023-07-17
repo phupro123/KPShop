@@ -9,6 +9,8 @@ const {
 
 router.put("/edit/:id",verifyTokenAndAdmin, productController.update);
 
+router.put("/edit/:pid/:id",verifyTokenAndUserAuthorization, productController.updateRating);
+
 router.post("/new", verifyTokenAndAdmin,productController.newProduct);
 
 router.delete("/delete/:id",verifyTokenAndAdmin,productController.deleteProduct);
