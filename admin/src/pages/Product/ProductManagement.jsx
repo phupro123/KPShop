@@ -63,7 +63,7 @@ const ProductManagement = () => {
     }
 
     try {
-      await ProductService.deleteProductById(selectedProduct?._id,axiosJWT);
+      await ProductService.deleteProductById(selectedProduct?._id, axiosJWT);
 
       toast.success("The product has been deleted successfully.");
 

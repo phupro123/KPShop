@@ -5,7 +5,7 @@ import { isEmpty, omit } from "lodash";
 const baseURL = "http://localhost:8000";
 
 const axiosInstance = axios.create({
-  credentials: 'include', 
+  credentials: "include",
   withCredentials: true,
   baseURL,
 });
@@ -29,8 +29,6 @@ axiosInstance.interceptors.request.use(
 
       return acc;
     }, {});
-
-    console.log(normalizedSortParams);
 
     req.params = {
       ...omit(req.params, ["sort"]),

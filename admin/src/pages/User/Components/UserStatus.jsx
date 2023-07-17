@@ -7,7 +7,6 @@ const classNamesByStatus = {
 };
 
 const UserStatus = ({ status, abc, className }) => {
-  console.log(abc);
   return (
     <div
       className={twMerge(

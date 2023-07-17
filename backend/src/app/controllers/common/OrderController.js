@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const Order = require("../../models/Order");
 
 const mongoose = require("mongoose");
@@ -12,7 +13,9 @@ class OrderController {
     const fromDate = req.query.fromDate;
     const toDate = req.query.toDate;
     const totalPrice = req.query.totalPrice?.split("-");
-    const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+    const sort = req.query.sort
+      ? JSON.parse(req.query.sort)
+      : { createdAt: -1 };
 
     const queryObj = {
       ...req.query,
@@ -39,6 +42,9 @@ class OrderController {
         .limit(pageSize)
         .skip(skipIndex)
         .exec();
+
+      console.log(sort);
+
       const count = await Order.countDocuments(queryObj);
       res.status(200).json({
         data,
@@ -74,7 +80,7 @@ class OrderController {
   }
 
   async cancel(req, res, next) {
-    await Order.updateOne({ _id: req.params.oid }, {status:"Đã hủy"})
+    await Order.updateOne({ _id: req.params.oid }, { status: "Đã hủy" })
       .then(() => res.status(200).json("Updated Success"))
       .catch(next);
   }

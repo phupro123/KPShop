@@ -20,27 +20,24 @@ const Order = ({}) => {
     const notify = () => toast.success('Đặt hàng thành công!');
     const handleConfirm = async () => {
         const payment = getPayment();
-        if(payment.name =="not"){
-            toast.info("Vui lòng chọn hình thức thanh toán");
-            return
+        if (payment.name == 'not') {
+            toast.info('Vui lòng chọn hình thức thanh toán');
+            return;
         }
-        
+
         const data = { ...order, payment };
-        console.log(data)
         if (payment.name === 'momo') {
-            data.status= "Chờ thanh toán"
+            data.status = 'Chờ thanh toán';
         }
-        console.log(data)
-        postOrders(dispatch, data,axiosJWT,currentUser._id);
+        postOrders(dispatch, data, axiosJWT, currentUser._id);
         notify();
         dispatch(clearCart());
-        if(currentUser?.username){
-            await _succesOrder(data,axiosJWT,currentUser?._id
-                )
+        if (currentUser?.username) {
+            await _succesOrder(data, axiosJWT, currentUser?._id);
         }
-        
+
         if (payment.name === 'momo') {
-            const money =data.totalPrice ;
+            const money = data.totalPrice;
             let redirectUrl = window.location.origin + '/history';
             const dataMomo = {
                 orderId: data._id,
@@ -50,9 +47,8 @@ const Order = ({}) => {
                 extraData: '',
             };
             localStorage.removeItem('order');
-            saveOrders(dispatch,null)
+            saveOrders(dispatch, null);
             const res = await momo.createMomoPayment(dataMomo);
-            
 
             // const temp = {
             //     id: data._id,
@@ -65,7 +61,7 @@ const Order = ({}) => {
 
             window.location = res.payUrl;
         } else {
-            saveOrders(dispatch,null)
+            saveOrders(dispatch, null);
             localStorage.removeItem('order');
             navigate('/history');
         }
@@ -82,12 +78,11 @@ const Order = ({}) => {
         return paymentIndex != -1 ? { name: radios[paymentIndex].value, paid: false } : { name: 'not', paid: false };
     };
 
-    
     useEffect(() => {
-        if(order==null){
-            navigate('/cart')
+        if (order == null) {
+            navigate('/cart');
         }
-        document.title = "Xác nhận đơn hàng - KPShop.com";
+        document.title = 'Xác nhận đơn hàng - KPShop.com';
     }, []);
     return (
         <>
@@ -108,7 +103,6 @@ const Order = ({}) => {
                                 <div className="info-order-header">
                                     <h4>
                                         {/* Đơn hàng: <span className="text-blue-400 font-bold">#{order._id}</span> */}
-                                        
                                         Thông tin đơn hàng:
                                     </h4>
                                     <div className="header-right">
@@ -215,9 +209,7 @@ const Order = ({}) => {
                                     Xác nhận đơn hàng
                                 </button>
                             </div>
-                            <div className="refund-popup">
-                                {/* <a href="">Xem chính sách hoàn tiền online</a> */}
-                            </div>
+                            <div className="refund-popup">{/* <a href="">Xem chính sách hoàn tiền online</a> */}</div>
                             <hr />
 
                             <div className="buyanotherNew">

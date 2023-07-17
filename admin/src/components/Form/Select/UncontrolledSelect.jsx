@@ -8,7 +8,7 @@ const UncontrolledSelect = ({
   placeholder,
   classNameError,
   isDisabled = false,
-  isRequired = true,
+  isRequired = false,
   isMulti,
   value,
   options,

@@ -9,6 +9,8 @@ const ModalContent = ({
   isAllowSubmit = true,
   isLoading = false,
   title,
+  cancelButtonText,
+  confirmButtonText,
   children,
   contentContainerClassName,
   onClose,
@@ -53,7 +55,7 @@ const ModalContent = ({
             disabled={isLoading}
             onClick={onClose}
           >
-            Close
+            {cancelButtonText ?? "Close"}
           </Button>
           <Button
             type="submit"
@@ -63,7 +65,7 @@ const ModalContent = ({
             isLoading={isLoading}
             onClick={onConfirm}
           >
-            Confirm
+            {confirmButtonText ?? "Confirm"}
           </Button>
         </div>
       )}
