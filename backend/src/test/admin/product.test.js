@@ -48,6 +48,7 @@ describe("POST Login", () => {
   });
 
   // Create new product
+  let _id
   describe("POST product /product/new", () => {
     it("should return 200 OK", async () => {
       const response = await request(app)
@@ -64,6 +65,7 @@ describe("POST Login", () => {
           title: "Product Test",
         })
         .expect(200);
+        _id = response.body._id
       expect(response.body).toBeDefined();
     });
   });
@@ -72,11 +74,9 @@ describe("POST Login", () => {
   describe("PUT product /product/edit/:id", () => {
     it("should return 200 OK", async () => {
       const response = await request(app)
-        .put("/product/edit/:id")
+        .put(`/product/edit/${_id}`)
         .set("token", `Bearer ${accessToken}`)
         .send({
-          _id: 39,
-          amount: "",
           brand: "Acer",
           category: "Laptop",
           discount: "0.15",
@@ -90,7 +90,15 @@ describe("POST Login", () => {
       expect(response.body).toBeDefined();
     });
   });
-
+  describe("delete product", () => {
+    it("should return 200 OK", async () => {
+      const response = await request(app)
+        .delete(`/product/delete/${_id}`)
+        .set("token", `Bearer ${accessToken}`)
+        .expect(200);
+      // expect(response.body).toBeDefined();
+    });
+  });
   // Search product by title
   describe("Search product with title", () => {
     it("should return 200 OK", async () => {
