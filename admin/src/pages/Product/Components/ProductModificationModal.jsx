@@ -69,6 +69,7 @@ const ProductModificationModal = ({
         toast.error("An unknown error occurred while processing your request.");
       } finally {
         setIsSubmitting(false);
+        setStep(1);
       }
     },
     [methods.setError, onClose, onCreate, onCreated, toast]
@@ -86,15 +87,13 @@ const ProductModificationModal = ({
         toast.error("An unknown error occurred while processing your request.");
       } finally {
         setIsSubmitting(false);
+        setStep(1);
       }
     },
     [methods.setError, onClose, onEdit, onEdited, product, toast]
   );
 
   const handleSubmit = useFormSubmit(async (formData) => {
-    if (step === 1) {
-      return;
-    }
     setIsSubmitting(true);
 
     if (!product) {
