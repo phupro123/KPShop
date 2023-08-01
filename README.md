@@ -1,4 +1,8 @@
 Đây là project về Web bán thiết bị điện tử sử dụng  MERN.
+### Demo link: https://kpshop-client.vercel.app/
+
+### Screenshot
+![image](https://github.com/phupro123/KPShop/assets/93069115/bd371157-0505-4c12-b29d-32b7d971e298)
 
 Cần cài đặt
  - Node.js 18.x
